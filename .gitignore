@@ -3,3 +3,5 @@ tags.lock
 tags.temp
 .DS_Store
 .Icon?
+*.out
+.idea

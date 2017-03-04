@@ -1,9 +1,8 @@
 #ifndef constants_h
 #define constants_h
 
-#ifndef NUM_TEMPERATURES
-#define NUM_TEMPERATURES 3
-#endif
+const int NUM_TEMPERATURES = 3;
+const unsigned short MAX_CYCLES = 300;
 
 const double MIN_TEMPERATURE = 20;
 const double MAX_TEMPERATURE = 105;

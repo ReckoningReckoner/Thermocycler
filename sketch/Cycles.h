@@ -4,9 +4,9 @@
 #include "constants.h"
 
 class Cycles {
-    long cycle_time[NUM_TEMPERATURES] = {};
-    double temperatures[NUM_TEMPERATURES] = {};
-    unsigned short number_of_cycles = 0;
+    long cycle_time[NUM_TEMPERATURES];
+    double temperatures[NUM_TEMPERATURES];
+    unsigned short number_of_cycles;
     public:
         Cycles();
         bool isValid();

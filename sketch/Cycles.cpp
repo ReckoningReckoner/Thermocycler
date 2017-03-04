@@ -2,6 +2,7 @@
 #include "constants.h"
 
 Cycles::Cycles() {
+    number_of_cycles = 0;
     for (int i = 0; i < NUM_TEMPERATURES; i++) {
        temperatures[i] = MIN_TEMPERATURE;
        cycle_time[i] = 0;
@@ -31,7 +32,7 @@ unsigned short Cycles::setGoalTemperatureAndGetCycle(long time, double*
 }
 
 int Cycles::setTime(unsigned short num_cycles, long t) {
-    if (num_cycles < NUM_TEMPERATURES) {
+    if (num_cycles < NUM_TEMPERATURES && t > 0) {
         cycle_time[num_cycles] = t;
         return 0;
     }
@@ -39,7 +40,8 @@ int Cycles::setTime(unsigned short num_cycles, long t) {
 }
 
 int Cycles::setTemperature(unsigned short num_cycles, double t) {
-    if (num_cycles < NUM_TEMPERATURES && t >= MIN_TEMPERATURE) {
+    if (num_cycles < NUM_TEMPERATURES &&
+        MIN_TEMPERATURE <= t && t <= MAX_TEMPERATURE) {
         temperatures[num_cycles] = t;
         return 0;
     }
@@ -51,7 +53,7 @@ unsigned short Cycles::getNumberOfCycles() {
 }
 
 int Cycles::setNumberOfCycles(unsigned short num) {
-    if (num != 0) {
+    if (num != 0 && num <= MAX_CYCLES) {
         number_of_cycles = num;
         return 0;
     }
@@ -73,12 +75,12 @@ double Cycles::getTemperature(unsigned short cycle_number) {
 }
 
 bool Cycles::isValid() {
-    if (number_of_cycles < 0) {
+    if (number_of_cycles <= 0) {
         return false;
     }
 
     for (int i = 0; i < NUM_TEMPERATURES; i++){
-        if (cycle_time[i] >= 0 || temperatures[i] < MIN_TEMPERATURE || temperatures[i] > MAX_TEMPERATURE) {
+        if (cycle_time[i] <= 0 || temperatures[i] < MIN_TEMPERATURE || temperatures[i] > MAX_TEMPERATURE) {
             return false;
         }
     }
