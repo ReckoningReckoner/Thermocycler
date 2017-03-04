@@ -2,7 +2,25 @@
 #define Cycles_h
 
 #include "constants.h"
-
+/**
+ * This class is for keeping track of the current cycle, and stores the user's input.
+ * The setTemperature and setTime functions are used for storing inputs.
+ * isValid is for validitaing the user input and making sure its safe to start a cycle.
+ * isFinished checks if the cycle is finished.
+ * 
+ * The important part of this code is the setGoalTemperatureAndGetCycle function.
+ * It is essentially run like this:
+ * 
+ * double goalTemperature;
+ * while(!cycles.isFinished()) {
+ *     short cycleNum = setGoalTemeprature(millis(), &goalTemperature);
+ *     if (cycleNum >= 0 || goalTemperature >= MIN_TEMPERATURE) {
+ *         do stuff with goalTemeperature and cycleNum
+ *     } else {
+ *         handle the error
+ *     }
+ * }
+ */
 class Cycles {
     long cycle_time[NUM_TEMPERATURES];
     double temperatures[NUM_TEMPERATURES];

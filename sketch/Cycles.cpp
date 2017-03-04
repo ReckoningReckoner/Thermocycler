@@ -1,4 +1,4 @@
-#include <cstdlib>
+#include <stdlib.h>
 #include "Cycles.h"
 
 Cycles::Cycles() {
@@ -41,10 +41,10 @@ bool Cycles::isFinished() {
 short Cycles::setGoalTemperatureAndGetCycle(long time, double*
         goalTemperature) {
     if (current_cycle >= NUM_TEMPERATURES) {
-        *goalTemperature = NULL;
+        *goalTemperature = -1;
         return -2;
     } else if (this->isFinished()) {
-        *goalTemperature = NULL;
+        *goalTemperature = -1;
         return -1;
     }
 
@@ -102,7 +102,7 @@ double Cycles::getTemperature(unsigned short cycle_number) {
 }
 
 bool Cycles::isValid() {
-    if (number_of_cycles <= 0) {
+    if (number_of_cycles <= 0 || number_of_cycles > MAX_CYCLES) {
         return false;
     }
 

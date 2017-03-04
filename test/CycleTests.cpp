@@ -142,8 +142,8 @@ void timedCycles() {
     simulatedTime = 105;
     simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime,
                                                          &simulatedTemperature);
-    assert(simulatedCycle);
-    assert(!simulatedTemperature);
+    assert(simulatedCycle == -1);
+    assert(simulatedTemperature == -1);
 
     assert(!cycle.isValid());
     cycle.reset();
