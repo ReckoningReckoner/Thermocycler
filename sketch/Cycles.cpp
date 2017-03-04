@@ -1,5 +1,5 @@
+#include <cstdlib>
 #include "Cycles.h"
-#include "constants.h"
 
 Cycles::Cycles() {
     number_of_cycles = 0;
@@ -7,6 +7,19 @@ Cycles::Cycles() {
        temperatures[i] = MIN_TEMPERATURE;
        cycle_time[i] = 0;
     }
+
+    /* These values must be reset */
+    time_since_start = 0;
+    time_at_last_cycle_change = 0;
+    current_cycle = 0;
+    cycles_completed = 0;
+}
+
+void Cycles::reset() {
+    current_cycle = 0;
+    cycles_completed = 0;
+    time_since_start = 0;
+    time_at_last_cycle_change = 0;
 }
 
 void Cycles::incrementCycle(unsigned short* num_cycles) {
@@ -17,18 +30,32 @@ void Cycles::incrementCycle(unsigned short* num_cycles) {
     }
 }
 
-unsigned short Cycles::setGoalTemperatureAndGetCycle(long time, double*
-        goalTemperature, unsigned short current_cycle) {
+bool Cycles::isFinished() {
+    return cycles_completed >= number_of_cycles * NUM_TEMPERATURES;
+}
+
+/*
+ * Retruns -2 if the current cycle is invalid
+ * Returns -1 if the cycles are finished but the thermocycler is not yet reset
+ */
+short Cycles::setGoalTemperatureAndGetCycle(long time, double*
+        goalTemperature) {
     if (current_cycle >= NUM_TEMPERATURES) {
+        *goalTemperature = NULL;
+        return -2;
+    } else if (this->isFinished()) {
+        *goalTemperature = NULL;
         return -1;
     }
-    else if (time >= cycle_time[current_cycle]) {
+
+    time_since_start = time;
+    if (time_since_start - time_at_last_cycle_change >= cycle_time[current_cycle]) {
+        time_at_last_cycle_change = time_since_start;
         incrementCycle(&current_cycle);
-        (*goalTemperature) = temperatures[current_cycle];
-        return current_cycle;
-    } else {
-        return current_cycle;
+        cycles_completed++;
     }
+    (*goalTemperature) = temperatures[current_cycle];
+    return current_cycle;
 }
 
 int Cycles::setTime(unsigned short num_cycles, long t) {
@@ -79,8 +106,22 @@ bool Cycles::isValid() {
         return false;
     }
 
+    if (cycles_completed > 0) {
+        return false;
+    }
+
+    if (current_cycle > 0) {
+        return false;
+    }
+
+    if (time_since_start != 0 || time_at_last_cycle_change != 0) {
+        return false;
+    }
+
     for (int i = 0; i < NUM_TEMPERATURES; i++){
-        if (cycle_time[i] <= 0 || temperatures[i] < MIN_TEMPERATURE || temperatures[i] > MAX_TEMPERATURE) {
+        if (cycle_time[i] <= 0 ||
+            temperatures[i] < MIN_TEMPERATURE ||
+            temperatures[i] > MAX_TEMPERATURE) {
             return false;
         }
     }

@@ -1,12 +1,13 @@
 cmake_minimum_required(VERSION 3.6)
-project(src)
+project(Thermocycler)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES
+set(TEST_FILES
     sketch/constants.h
     sketch/Cycles.cpp
     sketch/Cycles.h
-    test/Tests.cpp)
+    test/CycleTests.cpp
+    test/Tests.cpp test/CycleTests.h)
 
-add_executable(src ${SOURCE_FILES})
+add_executable(unittest ${TEST_FILES})

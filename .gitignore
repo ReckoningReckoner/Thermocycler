@@ -5,3 +5,5 @@ tags.temp
 .Icon?
 *.out
 .idea
+bin/**
+bin
