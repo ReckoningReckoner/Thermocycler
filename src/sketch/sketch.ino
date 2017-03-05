@@ -1,15 +1,17 @@
-#include "constants.h"
-#include "Cycles.h"
-#include "Relay.h"
+#include "Button.h"
 
+Button button(34);
+int pinLED = 22;
 void setup()
 {
-    Serial.begin(9600);
-
+    pinMode(pinLED, OUTPUT);
 }
 
 void loop()
 {
-    Serial.println(millis());
-    delay(1000);
+    if (button.isOn()) {
+        digitalWrite(pinLED, HIGH);
+    } else {
+        digitalWrite(pinLED, LOW);
+    }
 }
