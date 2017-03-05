@@ -10,3 +10,4 @@ class Relay {
         bool isOn();
 };
 #endif
+

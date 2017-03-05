@@ -45,3 +45,4 @@ class Cycles {
         void incrementCycle(unsigned short*);
 };
 #endif
+

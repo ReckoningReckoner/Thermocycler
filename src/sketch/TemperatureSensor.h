@@ -7,3 +7,4 @@ class TemperatureSensor {
         double currentTemperature();
 };
 #endif
+
