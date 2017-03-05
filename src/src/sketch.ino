@@ -2,13 +2,16 @@
 #include "Cycles.h"
 #include "Relay.h"
 
+int pin = 22;
 void setup()
 {
-    Serial.begin(9600);
+    pinMode(pin, OUTPUT);
 }
 
 void loop()
 {
-    Serial.println(NUM_TEMPERATURES);
+    digitalWrite(pin, HIGH);
+    delay(1000);
+    digitalWrite(pin, LOW);
     delay(1000);
 }
