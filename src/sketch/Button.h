@@ -2,7 +2,8 @@
 #define Button_h
 
 class Button {
-    int pin;
+    protected:
+        int pin;
     public:
         Button(int);
         bool isOn();

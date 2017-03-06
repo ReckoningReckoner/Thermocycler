@@ -1,17 +1,15 @@
-#include "Button.h"
+#include "ToggleButton.h"
 
-Button button(34);
-int pinLED = 22;
 void setup()
 {
-    pinMode(pinLED, OUTPUT);
+    // Do nothing
 }
 
 void loop()
 {
-    if (button.isOn()) {
-        digitalWrite(pinLED, HIGH);
-    } else {
-        digitalWrite(pinLED, LOW);
-    }
+    // Do nothing
+}
+
+void switchState() {
+    // Do nothing
 }
