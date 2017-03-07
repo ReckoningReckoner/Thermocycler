@@ -6,4 +6,5 @@
 #define CYCLETESTS_H
 void invalidCycles();
 void timedCycles();
+void interfaceTests();
 #endif //THERMOCYCLER_CYCLETESTS_H

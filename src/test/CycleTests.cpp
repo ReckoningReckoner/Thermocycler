@@ -1,7 +1,9 @@
 #include "../sketch/Cycles.h"
+#include "../sketch/constants.h"
 #include "CycleTests.h"
 #include <assert.h>
 #include<iostream>
+#include "../sketch/Interface.h"
 
 void invalidCycles() {
     std::cout << "Running cycles permission tests...\n";
@@ -11,6 +13,7 @@ void invalidCycles() {
     assert(cycle.setTime(99, 3) == -1);
     assert(cycle.setTemperature(99, 3) == -1);
     assert(cycle.setTime(0, 0) == -1);
+    assert(cycle.setTime(0, 2147483647) == -1);
     assert(cycle.setTemperature(0, 150) == -1);
     assert(cycle.setTemperature(0, 0) == -1);
     assert(!cycle.isValid());
@@ -148,4 +151,59 @@ void timedCycles() {
     assert(!cycle.isValid());
     cycle.reset();
     assert(cycle.isValid());
+}
+
+void interfaceTests() {
+    std::cout << "interface tests" << std::endl;
+    Cycles cycle;
+    assert(!cycle.isValid());
+    Interface interface(&cycle);
+
+    assert(interface.index == 0);
+    interface.incrementIndex();
+    assert(interface.index == 1);
+    interface.incrementIndex();
+    assert(interface.index == 2);
+    interface.incrementIndex();
+    assert(interface.index == 3);
+    interface.incrementIndex();
+    assert(interface.index == 4);
+    interface.incrementIndex();
+    assert(interface.index == 5);
+    interface.incrementIndex();
+    assert(interface.index == 6);
+    interface.incrementIndex();
+    assert(interface.index == 0);
+
+    // Index is 0
+    interface.adjustSetting(true);
+    assert(cycle.getTemperature(0) == MIN_TEMPERATURE + temperatureIncrement);
+    interface.adjustSetting(false);
+    assert(cycle.getTemperature(0) == MIN_TEMPERATURE);
+    interface.adjustSetting(false);
+    assert(cycle.getTemperature(0) == MIN_TEMPERATURE);
+    cycle.setTemperature(0, MAX_TEMPERATURE);
+    interface.adjustSetting(true);
+    assert(cycle.getTemperature(0) == MAX_TEMPERATURE);
+
+    interface.incrementIndex(); // Should be 2
+    assert(cycle.getTime(0) == 0);
+    interface.adjustSetting(false);
+    assert(cycle.getTime(0) == 0);
+    interface.adjustSetting(true);
+    assert(cycle.getTime(0) == timeIncrement);
+    interface.adjustSetting(true);
+    cycle.setTime(0, MAX_TIME);
+    assert(cycle.getTime(0) == MAX_TIME);
+
+    interface.incrementIndex(); // Should be 3
+    interface.adjustSetting(true);
+    assert(cycle.getTemperature(1) == 20.5);
+    interface.adjustSetting(false);
+    assert(cycle.getTemperature(1) == 20);
+    interface.adjustSetting(false);
+    assert(cycle.getTemperature(1) == 20);
+    cycle.setTemperature(1, MAX_TEMPERATURE);
+    interface.adjustSetting(true);
+    assert(cycle.getTemperature(1) == MAX_TEMPERATURE);
 }

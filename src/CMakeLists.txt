@@ -8,6 +8,9 @@ set(TEST_FILES
     sketch/Cycles.cpp
     sketch/Cycles.h
     test/CycleTests.cpp
-    test/Tests.cpp test/CycleTests.h)
+    test/Tests.cpp 
+    test/CycleTests.h
+    sketch/Interface.cpp
+    sketch/Interface.h)
 
 add_executable(unittest ${TEST_FILES})

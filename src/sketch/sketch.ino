@@ -1,15 +1,17 @@
-#include "ToggleButton.h"
+#include "Interface.h"
+#include <LiquidCrystal.h>
+
+/* RS E D4 D5 D6 D7 */
+LiquidCrystal lcd(7, 8, 9, 24, 10, 22);
 
 void setup()
 {
-    // Do nothing
+  lcd.begin(16, 2);
+  lcd.print("hello, world!");
 }
 
 void loop()
 {
-    // Do nothing
-}
-
-void switchState() {
-    // Do nothing
+  /* lcd.setCursor(0, 1); */
+  /* lcd.print(millis() / 1000); */
 }

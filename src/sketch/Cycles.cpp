@@ -59,7 +59,7 @@ short Cycles::setGoalTemperatureAndGetCycle(long time, double*
 }
 
 int Cycles::setTime(unsigned short num_cycles, long t) {
-    if (num_cycles < NUM_TEMPERATURES && t > 0) {
+    if (num_cycles < NUM_TEMPERATURES && 0 < t && t <= MAX_TIME) {
         cycle_time[num_cycles] = t;
         return 0;
     }
@@ -120,6 +120,7 @@ bool Cycles::isValid() {
 
     for (int i = 0; i < NUM_TEMPERATURES; i++){
         if (cycle_time[i] <= 0 ||
+            cycle_time[i] > MAX_TIME ||
             temperatures[i] < MIN_TEMPERATURE ||
             temperatures[i] > MAX_TEMPERATURE) {
             return false;

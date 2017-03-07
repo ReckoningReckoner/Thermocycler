@@ -20,6 +20,18 @@
  *         handle the error
  *     }
  * }
+ *
+ * A cycle will only be valid in the following cases:
+ * Number of cycles is > 0 and <= MAX_CYCLES
+ * Temperature is between MIN and MAXTEMPERATURE
+ * Cycle time is > 0 and less than MAX TIME
+ *
+ * The default cycles times are set to 0.
+ * The default temperatures are set to MIN TEMPERATURE
+ * The default number of cycles is 0.
+ * 
+ * If a cycle is stopped, it must be reset using the cycle.reset()
+ * method before starting again.
  */
 class Cycles {
     long cycle_time[NUM_TEMPERATURES];
