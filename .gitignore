@@ -10,3 +10,4 @@ bin
 .build_ano
 .pioenvs
 .piolibdeps
+CMakeListsPrivate.txt

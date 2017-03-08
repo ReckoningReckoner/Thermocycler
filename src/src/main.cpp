@@ -1,6 +1,6 @@
 #include "Interface.h"
-#include <LiquidCrystal.h>
 #include "Arduino.h"
+#include <max6675.h>
 
 /* RS E D4 D5 D6 D7 */
 LiquidCrystal lcd(7, 8, 9, 24, 10, 22);
