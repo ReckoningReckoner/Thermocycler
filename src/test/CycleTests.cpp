@@ -1,9 +1,9 @@
-#include "../sketch/Cycles.h"
-#include "../sketch/constants.h"
+#include "../src/Cycles.h"
+#include "../src/constants.h"
 #include "CycleTests.h"
 #include <assert.h>
 #include<iostream>
-#include "../sketch/Interface.h"
+#include "../src/Interface.h"
 
 void invalidCycles() {
     std::cout << "Running cycles permission tests...\n";
@@ -177,7 +177,7 @@ void interfaceTests() {
 
     // Index is 0
     interface.adjustSetting(true);
-    assert(cycle.getTemperature(0) == MIN_TEMPERATURE + temperatureIncrement);
+    assert(cycle.getTemperature(0) == MIN_TEMPERATURE + interface.temperatureIncrement);
     interface.adjustSetting(false);
     assert(cycle.getTemperature(0) == MIN_TEMPERATURE);
     interface.adjustSetting(false);
@@ -191,7 +191,7 @@ void interfaceTests() {
     interface.adjustSetting(false);
     assert(cycle.getTime(0) == 0);
     interface.adjustSetting(true);
-    assert(cycle.getTime(0) == timeIncrement);
+    assert(cycle.getTime(0) == interface.timeIncrement);
     interface.adjustSetting(true);
     cycle.setTime(0, MAX_TIME);
     assert(cycle.getTime(0) == MAX_TIME);

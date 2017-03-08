@@ -8,13 +8,13 @@
 #include "Cycles.h"
 class Interface {
     Cycles* cycle;
-    const double temperatureIncrement = 0.5;
-    const long timeIncrement = 30000; // 30 seconds
 #ifndef TESTING
     LiquidCrystal* lcd;
 #endif
     unsigned short maxIndex;
     public:
+        const double temperatureIncrement = 0.5;
+        const long timeIncrement = 30000; // 30 seconds
 #ifndef TESTING
         Interface(LiquidCrystal*, Cycles*);
 #endif
