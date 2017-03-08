@@ -11,3 +11,4 @@ bin
 .pioenvs
 .piolibdeps
 CMakeListsPrivate.txt
+src/CMakeLists.txt
