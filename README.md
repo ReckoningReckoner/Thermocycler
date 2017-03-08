@@ -2,7 +2,13 @@
 
 For APSC 200
 
-This program can be built and uploaded using platformIO using and Arduino MEGA/ATMEGA 2560 Clone.
+This program can be built and uploaded using [platformIO](http://platformio.org/get-started/cli) using and Arduino MEGA/ATMEGA 2560 Clone.
+
+The simplest way to install platformIO (with python2.7 installed) is:
+~~~
+pip install platformio
+~~~
+
 ~~~
 cd src/
 platformio run # for building
