@@ -8,3 +8,5 @@ tags.temp
 bin/**
 bin
 .build_ano
+.pioenvs
+.piolibdeps
