@@ -1,9 +1,9 @@
-# This for compiling for the arduino and uploading
+# This for compiling for the arduino and uploading it
 all:
-	platformio -f -c vim run
+	platformio run
 
 upload:
-	platformio -f -c vim run --target upload
+	platformio run --target upload
 
 clean:
-	platformio -f -c vim run --target clean
+	platformio run --target clean

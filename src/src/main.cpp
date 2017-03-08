@@ -7,12 +7,12 @@ LiquidCrystal lcd(7, 8, 9, 24, 10, 22);
 
 void setup()
 {
-  lcd.begin(16, 2);
-  lcd.print("hello, world!");
+    lcd.begin(16, 2);
+    lcd.print("hello, world!");
 }
 
 void loop()
 {
-  /* lcd.setCursor(0, 1); */
-  /* lcd.print(millis() / 1000); */
+    lcd.setCursor(0, 1);
+    lcd.print(millis() / 1000);
 }
