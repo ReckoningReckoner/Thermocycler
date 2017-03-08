@@ -1,6 +1,5 @@
 #include "Relay.h"
 #include "Arduino.h"
-#include "lib/max6675.h"
 
 Relay::Relay(int pin) {
     this->pin = pin;
