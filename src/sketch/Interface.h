@@ -6,11 +6,10 @@
 #endif
 
 #include "Cycles.h"
-const double temperatureIncrement = 0.5;
-const long timeIncrement = 30000; // 30 seconds
-
 class Interface {
     Cycles* cycle;
+    const double temperatureIncrement = 0.5;
+    const long timeIncrement = 30000; // 30 seconds
 #ifndef TESTING
     LiquidCrystal* lcd;
 #endif
