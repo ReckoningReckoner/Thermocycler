@@ -7,6 +7,8 @@ ToggleButton::ToggleButton(int pin, bool state, long delay) {
     this->delay = delay;
     this->state = state;
     this->lastPressed = millis();
+
+    pinMode(pin, INPUT_PULLUP);
 }
 
 int ToggleButton::getPin() {

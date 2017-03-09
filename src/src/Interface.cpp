@@ -35,7 +35,7 @@ void Interface::adjustSetting(bool increase) {
         } else {
             currentCycles--;
         }
-        cycle->setNumberOfCycles(currentCycles--);
+        cycle->setNumberOfCycles(currentCycles);
     } else if (index % 2 != 0) { // Time
         unsigned short cycleIndex = index/2;
         long currentTime = cycle->getTime(cycleIndex);
