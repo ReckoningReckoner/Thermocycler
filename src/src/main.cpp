@@ -81,12 +81,16 @@ void setup() {
 }
 
 
-
 void loop() {
     while (!stateButton.isOn()) { // Get User Settings
         doInterface();
     }
 
     while (stateButton.isOn()) { // Run Thermocycle
+    }
+
+    if (cycle.isFinished()){
+        cycle.reset();
+        stateButton.setOff();
     }
 }
