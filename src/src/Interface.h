@@ -3,6 +3,7 @@
 
 #ifndef TESTING
 #include <LiquidCrystal.h>
+String millisecondsToString(long millis);
 #endif
 
 #include "Cycles.h"
@@ -12,6 +13,7 @@ class Interface {
     LiquidCrystal* lcd;
 #endif
     unsigned short maxIndex;
+    void updateLCD();
     public:
         const double temperatureIncrement = 0.5;
         const long timeIncrement = 30000; // 30 seconds
@@ -23,4 +25,5 @@ class Interface {
         void adjustSetting(bool);
         void incrementIndex();
 };
+
 #endif

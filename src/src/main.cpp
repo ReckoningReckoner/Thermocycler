@@ -3,7 +3,6 @@
 #include "Arduino.h"
 #include "ToggleButton.h"
 #include "Interface.h"
-#include "Cycles.h"
 #include "RotaryEncoderPosition.h"
 
 
@@ -16,8 +15,8 @@ RotaryEncoderPosition encoder(2, 3);
 
 Cycles cycle;
 /* RS E D4 D5 D6 D7 */
-LiquidCrystal lcd(7, 8, 9, 24, 10, 26);
-Interface interface(&cycle);
+LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
+Interface interface(&lcd, &cycle);
 
 
 /* Interrupt method */
@@ -28,9 +27,6 @@ void toggleSettings() {
         Serial.print("Toggle Button Pressed ");
         Serial.println(millis());
         #endif
-
-        lcd.begin(16, 2);
-        lcd.print("hello, world!");
     }
 }
 

@@ -10,6 +10,9 @@ Interface::Interface(LiquidCrystal* lcd, Cycles* cycle) {
     this->cycle = cycle;
     maxIndex = 2 * NUM_TEMPERATURES;
     index = 0;
+
+    lcd->begin(16, 2);
+    updateLCD();
 }
 #endif
 
@@ -25,6 +28,9 @@ void Interface::incrementIndex() {
     } else {
         index = 0;
     }
+    #ifndef TESTING
+    updateLCD();
+    #endif
 }
 
 void Interface::adjustSetting(bool increase) {
@@ -36,6 +42,13 @@ void Interface::adjustSetting(bool increase) {
             currentCycles--;
         }
         cycle->setNumberOfCycles(currentCycles);
+
+        #ifndef TESTING
+        lcd->setCursor(0, 1);
+        lcd->print("   ");
+        lcd->setCursor(0, 1);
+        lcd->print(cycle->getNumberOfCycles());
+        #endif
     } else if (index % 2 != 0) { // Time
         unsigned short cycleIndex = index/2;
         long currentTime = cycle->getTime(cycleIndex);
@@ -45,6 +58,13 @@ void Interface::adjustSetting(bool increase) {
             currentTime -= timeIncrement;
         }
         cycle->setTime(cycleIndex, currentTime);
+
+        #ifndef TESTING
+        lcd->setCursor(0, 1);
+        lcd->print("     ");
+        lcd->setCursor(0, 1);
+        lcd->print(millisecondsToString(cycle->getTime(cycleIndex)));
+        #endif
     } else { // Temperature
         unsigned short cycleIndex = index/2;
         double currentTemperature = cycle->getTemperature(cycleIndex);
@@ -54,5 +74,54 @@ void Interface::adjustSetting(bool increase) {
             currentTemperature -= temperatureIncrement;
         }
         cycle->setTemperature(cycleIndex, currentTemperature);
+
+        #ifndef TESTING
+        lcd->setCursor(0, 1);
+        lcd->print("      ");
+        lcd->setCursor(0, 1);
+        lcd->print(cycle->getTemperature(cycleIndex));
+        #endif
     }
 }
+
+
+#ifndef TESTING
+void Interface::updateLCD() {
+    lcd->clear();
+    int cycleIndex = index/2;
+    if (index == maxIndex) {
+        lcd->setCursor(0, 0);
+        lcd->print("Set # of cycles:");
+        lcd->setCursor(0, 1);
+        lcd->print(cycle->getNumberOfCycles());
+    } else if (index % 2 != 0) { // Time
+        lcd->setCursor(0, 0);
+        lcd->print("Set time " + String(cycleIndex + 1) + ":");
+        lcd->setCursor(0, 1);
+        lcd->print(millisecondsToString(cycle->getTime(cycleIndex)));
+    } else { // Time
+        lcd->setCursor(0, 0);
+        lcd->print("Set temp " + String(cycleIndex + 1) + ":");
+        lcd->setCursor(0, 1);
+        lcd->print(cycle->getTemperature(cycleIndex));
+    }
+}
+
+String millisecondsToString(long millis) {
+    long seconds = millis/1000;
+    String secondStr;
+    if (seconds % 60 < 10) {
+        secondStr = "0" + String(seconds % 60);
+    } else {
+        secondStr = String(seconds % 60);
+    }
+
+    String minuteStr;
+    if (seconds/60 < 10) {
+        minuteStr = "0" + String(seconds/60);
+    } else {
+        minuteStr = String(seconds/60);
+    }
+    return minuteStr + ":" + secondStr;
+}
+#endif
