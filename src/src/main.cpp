@@ -39,8 +39,6 @@ void changeState() {
         #endif
         if (stateButton.isOn()) { // In the middle of cycle
             stateButton.setOff();
-            cycle.reset();
-            interface.reset();
         }
         else if (cycle.isValid()) { // Start your cycle
             stateButton.setOn();
@@ -77,6 +75,8 @@ void setup() {
 
 
 void loop() {
+    interface.reset();
+    cycle.reset();
     while (!stateButton.isOn()) { // Get User Settings
         doInterface();
     }
@@ -93,8 +93,6 @@ void loop() {
     }
 
     if (cycle.isFinished()) {
-        cycle.reset();
-        interface.reset();
         stateButton.setOff();
     }
 }
