@@ -40,7 +40,7 @@ void changeState() {
         if (stateButton.isOn()) { // In the middle of cycle
             stateButton.setOff();
         }
-        else if (cycle.isValid()) { // Start your cycle
+        else if (!stateButton.isOn() && cycle.isValid()) { // Start your cycle
             stateButton.setOn();
         }
     }
