@@ -3,10 +3,10 @@
 
 
 int main() {
-    std::cout << "Starting Tests\n";
+    std::cout << "Starting Tests\n------------\n";
     invalidCycles();
     timedCycles();
     interfaceTests();
-    std::cout << "All tests passed!\n";
+    std::cout << "All tests passed!\n-----------\n";
     return 0;
 }

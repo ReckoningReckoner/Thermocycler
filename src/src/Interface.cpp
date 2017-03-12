@@ -35,7 +35,9 @@ void Interface::incrementIndex() {
 
 void Interface::reset() {
     index = 0;
+    #ifndef TESTING
     updateLCD();
+    #endif
 }
 
 void Interface::adjustSetting(bool increase) {
