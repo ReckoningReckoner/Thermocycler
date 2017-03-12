@@ -34,7 +34,7 @@
  * method before starting again.
  */
 class Cycles {
-    long cycle_time[NUM_TEMPERATURES];
+    unsigned long cycle_time[NUM_TEMPERATURES];
     double temperatures[NUM_TEMPERATURES];
     unsigned short number_of_cycles;
     unsigned short current_cycle;
@@ -46,7 +46,7 @@ class Cycles {
         bool isValid();
         int setTemperature(unsigned short, double);
         int setTime(unsigned short, long);
-        short setGoalTemperatureAndGetCycle(long, double*);
+        short setGoalTemperatureAndGetCycle(unsigned long, double*);
         bool isFinished();
         int setNumberOfCycles(unsigned short);
         void reset();

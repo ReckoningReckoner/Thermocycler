@@ -1,5 +1,8 @@
-#define DEBUG
-
+/*
+ * APSC200 Thermoycler Project
+ * Year: 2017
+ * Author: Viraj Bangari
+ */
 #include "Arduino.h"
 #include "ToggleButton.h"
 #include "Interface.h"
@@ -10,12 +13,9 @@
 ToggleButton toggleButton(togglePin, false, 300);
 # define statePin 19
 ToggleButton stateButton(statePin, false, 300);
-
 RotaryEncoderPosition encoder(2, 3);
-
+LiquidCrystal lcd(7, 8, 9, 10, 11, 12); // RS E D4 D5 D6 D7
 Cycles cycle;
-/* RS E D4 D5 D6 D7 */
-LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 Interface interface(&lcd, &cycle);
 
 
@@ -40,8 +40,9 @@ void changeState() {
         if (stateButton.isOn()) { // In the middle of cycle
             stateButton.setOff();
             cycle.reset();
+            interface.reset();
         }
-        else if (cycle.isValid()) {
+        else if (cycle.isValid()) { // Start your cycle
             stateButton.setOn();
         }
     }
@@ -69,11 +70,9 @@ void setup() {
     Serial.begin(9600);
     #endif
     attachInterrupt(digitalPinToInterrupt(togglePin),
-                    toggleSettings,
-                    RISING);
+                    toggleSettings, RISING);
     attachInterrupt(digitalPinToInterrupt(statePin),
-                    changeState,
-                    RISING);
+                    changeState, RISING);
 }
 
 
@@ -82,11 +81,20 @@ void loop() {
         doInterface();
     }
 
-    while (stateButton.isOn()) { // Run Thermocycle
+    double goalTemperature = 0;
+    lcd.clear();
+    unsigned long timeStart = millis();
+    while (stateButton.isOn() && !cycle.isFinished()) { // Run Thermocycle
+        unsigned long time = millis() - timeStart;
+        short cycleNum =
+                cycle.setGoalTemperatureAndGetCycle(time,
+                                                    &goalTemperature);
+        interface.displayCycleInfo(&cycleNum, &time, &goalTemperature);
     }
 
-    if (cycle.isFinished()){
+    if (cycle.isFinished()) {
         cycle.reset();
+        interface.reset();
         stateButton.setOff();
     }
 }

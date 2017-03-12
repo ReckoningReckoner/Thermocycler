@@ -33,6 +33,11 @@ void Interface::incrementIndex() {
     #endif
 }
 
+void Interface::reset() {
+    index = 0;
+    updateLCD();
+}
+
 void Interface::adjustSetting(bool increase) {
     if (index == maxIndex) { // Number of cycles
         unsigned short currentCycles = cycle->getNumberOfCycles();
@@ -107,8 +112,18 @@ void Interface::updateLCD() {
     }
 }
 
-String millisecondsToString(long millis) {
-    long seconds = millis/1000;
+void Interface::displayCycleInfo(short *cycleNum, unsigned long *time,
+                                 double *goalTemperature) {
+    lcd->setCursor(0, 0);
+    lcd->print(*cycleNum);
+    lcd->print(" ");
+    lcd->print(millisecondsToString(*time));
+    lcd->setCursor(0, 1);
+    lcd->print(*goalTemperature);
+}
+
+String millisecondsToString(unsigned long millis) {
+    unsigned long seconds = millis/1000;
     String secondStr;
     if (seconds % 60 < 10) {
         secondStr = "0" + String(seconds % 60);

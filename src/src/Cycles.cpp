@@ -38,7 +38,7 @@ bool Cycles::isFinished() {
  * Retruns -2 if the current cycle is invalid
  * Returns -1 if the cycles are finished but the thermocycler is not yet reset
  */
-short Cycles::setGoalTemperatureAndGetCycle(long time, double*
+short Cycles::setGoalTemperatureAndGetCycle(unsigned long time, double*
         goalTemperature) {
     if (current_cycle >= NUM_TEMPERATURES) {
         *goalTemperature = -1;

@@ -3,7 +3,7 @@
 
 #ifndef TESTING
 #include <LiquidCrystal.h>
-String millisecondsToString(long millis);
+String millisecondsToString(unsigned long millis);
 #endif
 
 #include "Cycles.h"
@@ -24,6 +24,9 @@ class Interface {
         Interface(Cycles*);
         void adjustSetting(bool);
         void incrementIndex();
+        void reset();
+        void displayCycleInfo(short* cycleNum,
+                              unsigned long* time,
+                              double* goalTemperature);
 };
-
 #endif
