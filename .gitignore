@@ -12,3 +12,4 @@ bin
 .piolibdeps
 CMakeListsPrivate.txt
 src/CMakeLists.txt
+.cpppath
