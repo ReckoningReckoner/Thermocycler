@@ -38,8 +38,8 @@ class Cycles {
     double temperatures[NUM_TEMPERATURES];
     unsigned short number_of_cycles;
     unsigned short current_cycle;
-    long time_since_start;
-    long time_at_last_cycle_change;
+    unsigned long time_since_start;
+    unsigned long time_at_last_cycle_change;
     unsigned short cycles_completed;
     public:
         Cycles();
