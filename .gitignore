@@ -13,3 +13,4 @@ bin
 CMakeListsPrivate.txt
 src/CMakeLists.txt
 .cpppath
+.vimsettings
