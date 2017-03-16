@@ -1,11 +1,5 @@
 all:
-	echo '#define TESTING' | cat - src/Interface.h > temp && mv temp src/Interface.h;\
-	cd test/bin;\
-	cmake .;\
 	make unittest;\
-	./unittest;\
-	cd ../..;\
-	ex -sc '1d|x' src/Interface.h;\
 	platformio run;\
 
 upload:
@@ -21,3 +15,4 @@ unittest:
 	make unittest;\
 	./unittest;\
 	cd ../..;\
+	ex -sc '1d|x' src/Interface.h;\

@@ -6,6 +6,7 @@
 #include "Arduino.h"
 #include "ToggleButton.h"
 #include "Interface.h"
+#include <LiquidCrystal.h>
 #include "RotaryEncoderPosition.h"
 
 
