@@ -2,6 +2,7 @@
 #define Cycles_h
 
 #include "constants.h"
+#include  <math.h>
 /**
  * This class is for keeping track of the current cycle, and stores the user's input.
  * The setTemperature and setTime functions are used for storing inputs.
@@ -13,7 +14,7 @@
  * 
  * double goalTemperature;
  * while(!cycles.isFinished()) {
- *     short cycleNum = setGoalTemeprature(millis(), &goalTemperature);
+ *     short cycleNum = setGoalTemeprature(millis(), &goalTemperature, currentTemperature);
  *     if (cycleNum >= 0 || goalTemperature >= MIN_TEMPERATURE) {
  *         do stuff with goalTemeperature and cycleNum
  *     } else {
@@ -35,18 +36,21 @@
  */
 class Cycles {
     unsigned long cycle_time[NUM_TEMPERATURES];
+    const double temperature_difference = 3.0;
     double temperatures[NUM_TEMPERATURES];
     unsigned short number_of_cycles;
     unsigned short current_cycle;
     unsigned long time_since_start;
     unsigned long time_at_last_cycle_change;
     unsigned short cycles_completed;
+    bool is_ramping;
+
     public:
         Cycles();
         bool isValid();
         int setTemperature(unsigned short, double);
         int setTime(unsigned short, long);
-        short setGoalTemperatureAndGetCycle(unsigned long, double*);
+        short setGoalTemperatureAndGetCycle(unsigned long, double*, double);
         bool isFinished();
         int setNumberOfCycles(unsigned short);
         void reset();

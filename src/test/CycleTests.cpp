@@ -65,88 +65,139 @@ void timedCycles() {
     double simulatedTemperature = 0;
 
     simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
-                                                         &simulatedTemperature);
+                                                         &simulatedTemperature, temp1/2);
+    assert(simulatedCycle == 0);
+    assert(simulatedTemperature == temp1);
+    assert(!cycle.isFinished());
+
+    simulatedTime = 10;
+    simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
+                                                         &simulatedTemperature, temp1);
+    assert(simulatedCycle == 0);
+    assert(simulatedTemperature == temp1);
+    assert(!cycle.isFinished());
+
+    simulatedTime = 19;
+    simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
+                                                         &simulatedTemperature, temp1);
+    assert(simulatedCycle == 0);
+    assert(simulatedTemperature == temp1);
+    assert(!cycle.isFinished());
+
+    simulatedTime = 22;
+    simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
+                                                         &simulatedTemperature, temp1);
+    assert(simulatedCycle == 1);
+    assert(simulatedTemperature == temp2);
+    assert(!cycle.isFinished());
+
+    simulatedTime = 30;
+    simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
+                                                         &simulatedTemperature, temp2/2);
+    assert(simulatedCycle == 1);
+    assert(simulatedTemperature == temp2);
+    assert(!cycle.isFinished());
+
+    simulatedTime = 60;
+    simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
+                                                         &simulatedTemperature, temp2/2);
+    assert(simulatedCycle == 1);
+    assert(simulatedTemperature == temp2);
+    assert(!cycle.isFinished());
+
+    simulatedTime = 90;
+    simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
+                                                         &simulatedTemperature, temp2 - 0.01);
+    assert(simulatedCycle == 1);
+    assert(simulatedTemperature == temp2);
+    assert(!cycle.isFinished());
+
+    simulatedTime = 111;
+    simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
+                                                         &simulatedTemperature, temp2 - 0.01);
+    assert(simulatedCycle == 2);
+    assert(simulatedTemperature == temp3);
+    assert(!cycle.isFinished());
+
+    simulatedTime = 130;
+    simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
+                                                         &simulatedTemperature, temp3/2);
+    assert(simulatedCycle == 2);
+    assert(simulatedTemperature == temp3);
+    assert(!cycle.isFinished());
+
+    simulatedTime = 131;
+    simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
+                                                         &simulatedTemperature, temp3);
+    assert(simulatedCycle == 2);
+    assert(simulatedTemperature == temp3);
+    assert(!cycle.isFinished());
+
+    simulatedTime = 135;
+    simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
+                                                         &simulatedTemperature, temp3);
+    assert(simulatedCycle == 2);
+    assert(simulatedTemperature == temp3);
+    assert(!cycle.isFinished());
+
+    simulatedTime = 142;
+    simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
+                                                         &simulatedTemperature, temp3);
     assert(simulatedCycle == 0);
     assert(simulatedTemperature == temp1);
     assert(!cycle.isFinished());
 
 
-    simulatedTime = 5;
+    simulatedTime = 153;
     simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
-                                                         &simulatedTemperature);
+                                                         &simulatedTemperature, temp1 + 0.03);
     assert(simulatedCycle == 0);
     assert(simulatedTemperature == temp1);
     assert(!cycle.isFinished());
-    assert(!cycle.isValid());
 
-    simulatedTime = 11;
+
+    simulatedTime = 163;
     simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
-                                                         &simulatedTemperature);
+                                                         &simulatedTemperature, temp2);
     assert(simulatedCycle == 1);
     assert(simulatedTemperature == temp2);
     assert(!cycle.isFinished());
-    assert(!cycle.isValid());
 
-    simulatedTime = 21;
+    simulatedTime = 164;
     simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
-                                                         &simulatedTemperature);
+                                                         &simulatedTemperature, temp2);
     assert(simulatedCycle == 1);
     assert(simulatedTemperature == temp2);
     assert(!cycle.isFinished());
-    assert(!cycle.isValid());
 
-    simulatedTime = 31;
+
+    simulatedTime = 184;
     simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
-                                                         &simulatedTemperature);
+                                                         &simulatedTemperature, temp2);
     assert(simulatedCycle == 2);
     assert(simulatedTemperature == temp3);
     assert(!cycle.isFinished());
-    assert(!cycle.isValid());
 
-    simulatedTime = 42;
+    simulatedTime = 185;
     simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
-                                                         &simulatedTemperature);
-    assert(simulatedCycle == 0);
-    assert(simulatedTemperature == temp1);
-    assert(!cycle.isFinished());
-    assert(!cycle.isValid());
-
-    simulatedTime = 63;
-    simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
-                                                         &simulatedTemperature);
-    assert(simulatedCycle == 1);
-    assert(simulatedTemperature == temp2);
-    assert(!cycle.isFinished());
-    assert(!cycle.isValid());
-
-    simulatedTime = 84;
-    simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
-                                                         &simulatedTemperature);
+                                                         &simulatedTemperature, temp3);
     assert(simulatedCycle == 2);
     assert(simulatedTemperature == temp3);
     assert(!cycle.isFinished());
-    assert(!cycle.isValid());
 
-    simulatedTime = 93;
+    simulatedTime = 195;
     simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
-                                                         &simulatedTemperature);
-    assert(simulatedCycle == 2);
-    assert(simulatedTemperature == temp3);
-    assert(!cycle.isFinished());
-    assert(!cycle.isValid());
-
-    /* This should be the final cycle */
-    simulatedTime = 95;
-    cycle.setGoalTemperatureAndGetCycle(simulatedTime, &simulatedTemperature);
-    assert(cycle.isFinished());
-    assert(!cycle.isValid());
-
-    /* These should return -1 values */
-    simulatedTime = 105;
-    simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime,
-                                                         &simulatedTemperature);
+                                                         &simulatedTemperature, temp3);
     assert(simulatedCycle == -1);
     assert(simulatedTemperature == -1);
+    assert(cycle.isFinished());
+
+    simulatedTime = 999;
+    simulatedCycle = cycle.setGoalTemperatureAndGetCycle(simulatedTime, 
+                                                         &simulatedTemperature, temp3);
+    assert(simulatedCycle == -1);
+    assert(simulatedTemperature == -1);
+    assert(cycle.isFinished());
 
     assert(!cycle.isValid());
     cycle.reset();

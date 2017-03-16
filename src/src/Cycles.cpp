@@ -13,6 +13,7 @@ Cycles::Cycles() {
     time_at_last_cycle_change = 0;
     current_cycle = 0;
     cycles_completed = 0;
+    is_ramping = true;
 }
 
 void Cycles::reset() {
@@ -20,6 +21,7 @@ void Cycles::reset() {
     cycles_completed = 0;
     time_since_start = 0;
     time_at_last_cycle_change = 0;
+    is_ramping = true;
 }
 
 void Cycles::incrementCycle(unsigned short* num_cycles) {
@@ -39,23 +41,39 @@ bool Cycles::isFinished() {
  * Returns -1 if the cycles are finished but the thermocycler is not yet reset
  */
 short Cycles::setGoalTemperatureAndGetCycle(unsigned long time, double*
-        goalTemperature) {
+        goalTemperature, double currentTemperature) {
     if (current_cycle >= NUM_TEMPERATURES) {
         *goalTemperature = -1;
         return -2;
-    } else if (this->isFinished()) {
+    } else if (isFinished()) {
         *goalTemperature = -1;
         return -1;
     }
 
-    time_since_start = time;
-    if (time_since_start - time_at_last_cycle_change >= cycle_time[current_cycle]) {
-        time_at_last_cycle_change = time_since_start;
-        incrementCycle(&current_cycle);
-        cycles_completed++;
+    if (is_ramping) {
+        if (fabs(currentTemperature - *goalTemperature) <= temperature_difference) {
+            is_ramping = false;
+            time_at_last_cycle_change = time;
+        }
     }
-    (*goalTemperature) = temperatures[current_cycle];
-    return current_cycle;
+
+    if (!is_ramping) {
+        time_since_start = time - time_at_last_cycle_change;
+        if (time_since_start >= cycle_time[current_cycle]) {
+            incrementCycle(&current_cycle);
+            cycles_completed++;
+            is_ramping = true;
+            time_since_start = 0;
+        }
+    }
+
+    if (!isFinished()) {
+        *goalTemperature = temperatures[current_cycle];
+        return current_cycle;
+    } else {
+        *goalTemperature = -1;
+        return -1;
+    }
 }
 
 int Cycles::setTime(unsigned short num_cycles, long t) {
@@ -115,6 +133,10 @@ bool Cycles::isValid() {
     }
 
     if (time_since_start != 0 || time_at_last_cycle_change != 0) {
+        return false;
+    }
+    
+    if (!is_ramping) {
         return false;
     }
 

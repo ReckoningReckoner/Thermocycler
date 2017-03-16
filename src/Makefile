@@ -13,3 +13,11 @@ upload:
 
 clean:
 	platformio run --target clean
+
+unittest:
+	echo '#define TESTING' | cat - src/Interface.h > temp && mv temp src/Interface.h;\
+	cd test/bin;\
+	cmake .;\
+	make unittest;\
+	./unittest;\
+	cd ../..;\

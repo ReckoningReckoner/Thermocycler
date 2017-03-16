@@ -88,7 +88,7 @@ void loop() {
         unsigned long time = millis() - timeStart;
         short cycleNum =
                 cycle.setGoalTemperatureAndGetCycle(time,
-                                                    &goalTemperature);
+                                                    &goalTemperature, goalTemperature);
         interface.displayCycleInfo(&cycleNum, &time, &goalTemperature);
     }
 
