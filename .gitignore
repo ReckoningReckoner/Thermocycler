@@ -5,12 +5,11 @@ tags.temp
 .Icon?
 *.out
 .idea
-bin/**
 bin
 .build_ano
 .pioenvs
 .piolibdeps
 CMakeListsPrivate.txt
 src/CMakeLists.txt
-.vimsettings.vim
+.lvim
 .xcode
