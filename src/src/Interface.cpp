@@ -114,14 +114,21 @@ void Interface::updateLCD() {
     }
 }
 
-void Interface::displayCycleInfo(short *cycleNum, unsigned long *time,
-                                 double *goalTemperature) {
+void Interface::displayCycleInfo(short cycleNum, unsigned long time,
+                                 double goalTemperature, double currentTemperature,
+                                 bool isRamping) {
     lcd->setCursor(0, 0);
-    lcd->print(*cycleNum);
+    lcd->print(cycleNum);
     lcd->print(" ");
-    lcd->print(millisecondsToString(*time));
+    if (isRamping) {
+        lcd->print("Ramping");
+    } else {
+        lcd->print(millisecondsToString(time));
+    }
     lcd->setCursor(0, 1);
-    lcd->print(*goalTemperature);
+    lcd->print(goalTemperature);
+    lcd->print(" ");
+    lcd->print(currentTemperature);
 }
 
 String millisecondsToString(unsigned long millis) {

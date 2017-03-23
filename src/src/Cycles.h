@@ -36,7 +36,6 @@
  */
 class Cycles {
     unsigned long cycle_time[NUM_TEMPERATURES];
-    const double temperature_difference = 3.0;
     double temperatures[NUM_TEMPERATURES];
     unsigned short number_of_cycles;
     unsigned short current_cycle;
@@ -57,6 +56,7 @@ class Cycles {
         double getTemperature(unsigned short);
         long getTime(unsigned short);
         unsigned short getNumberOfCycles();
+        bool isRamping();
     private:
         void incrementCycle(unsigned short*);
 };

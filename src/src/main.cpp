@@ -3,7 +3,7 @@
  * Year: 2017
  * Author: Viraj Bangari
  */
-#include "Arduino.h"
+#include <Arduino.h>
 #include "ToggleButton.h"
 #include "Interface.h"
 #include <LiquidCrystal.h>
@@ -82,15 +82,19 @@ void loop() {
         doInterface();
     }
 
-    double goalTemperature = 0;
     lcd.clear();
+    double goalTemperature = 0;
+    double *currentTemperature = &goalTemperature;
     unsigned long timeStart = millis();
     while (stateButton.isOn() && !cycle.isFinished()) { // Run Thermocycle
         unsigned long time = millis() - timeStart;
-        short cycleNum =
-                cycle.setGoalTemperatureAndGetCycle(time,
-                                                    &goalTemperature, goalTemperature);
-        interface.displayCycleInfo(&cycleNum, &time, &goalTemperature);
+        short cycleNum = cycle.setGoalTemperatureAndGetCycle(time,
+                                                             &goalTemperature,
+                                                             *currentTemperature);
+
+        interface.displayCycleInfo(cycleNum, time, goalTemperature,
+                                   *currentTemperature, cycle.isRamping());
+        delay(200);
     }
 
     if (cycle.isFinished()) {

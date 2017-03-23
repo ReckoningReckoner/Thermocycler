@@ -5,7 +5,7 @@ Cycles::Cycles() {
     number_of_cycles = 0;
     for (int i = 0; i < NUM_TEMPERATURES; i++) {
        temperatures[i] = MIN_TEMPERATURE;
-       cycle_time[i] = 0;
+       cycle_time[i] = 30000;
     }
 
     /* These values must be reset */
@@ -51,7 +51,7 @@ short Cycles::setGoalTemperatureAndGetCycle(unsigned long time, double*
     }
 
     if (is_ramping) {
-        if (fabs(currentTemperature - *goalTemperature) <= temperature_difference) {
+        if (fabs(currentTemperature - *goalTemperature) <= RAMPING_TEMPERATURE_DIFFERENCE) {
             is_ramping = false;
             time_at_last_cycle_change = time;
         }
@@ -74,6 +74,10 @@ short Cycles::setGoalTemperatureAndGetCycle(unsigned long time, double*
         *goalTemperature = -1;
         return -1;
     }
+}
+
+bool Cycles::isRamping() {
+    return is_ramping;
 }
 
 int Cycles::setTime(unsigned short num_cycles, long t) {

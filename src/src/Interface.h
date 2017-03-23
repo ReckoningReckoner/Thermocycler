@@ -25,8 +25,10 @@ class Interface {
         void adjustSetting(bool);
         void incrementIndex();
         void reset();
-        void displayCycleInfo(short* cycleNum,
-                              unsigned long* time,
-                              double* goalTemperature);
+        void displayCycleInfo(short cycleNum,
+                              unsigned long time,
+                              double goalTemperature,
+                              double currentTemperature,
+                              bool isRamping);
 };
 #endif
