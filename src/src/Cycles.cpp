@@ -2,7 +2,7 @@
 #include "Cycles.h"
 
 Cycles::Cycles() {
-    number_of_cycles = 0;
+    number_of_cycles = 1;
     for (int i = 0; i < NUM_TEMPERATURES; i++) {
        temperatures[i] = MIN_TEMPERATURE;
        cycle_time[i] = 30000;

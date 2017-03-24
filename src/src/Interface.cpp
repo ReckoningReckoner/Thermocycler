@@ -121,7 +121,7 @@ void Interface::displayCycleInfo(short cycleNum, unsigned long time,
     lcd->print(cycleNum);
     lcd->print(" ");
     if (isRamping) {
-        lcd->print("Ramping");
+        lcd->print("RAMP ");
     } else {
         lcd->print(millisecondsToString(time));
     }

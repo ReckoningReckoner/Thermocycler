@@ -8,16 +8,21 @@
 #include "Interface.h"
 #include <LiquidCrystal.h>
 #include "RotaryEncoderPosition.h"
+#include "TemperatureSensor.h"
 
 
+/* Interface */
 # define togglePin 20
-ToggleButton toggleButton(togglePin, false, 300);
 # define statePin 19
+ToggleButton toggleButton(togglePin, false, 300);
 ToggleButton stateButton(statePin, false, 300);
 RotaryEncoderPosition encoder(2, 3);
 LiquidCrystal lcd(7, 8, 9, 10, 11, 12); // RS E D4 D5 D6 D7
 Cycles cycle;
 Interface interface(&lcd, &cycle);
+
+/* Heating and Cooling */
+TemperatureSensor temperatureSensor(48, 50, 52);
 
 
 /* Interrupt method */
@@ -83,17 +88,17 @@ void loop() {
     }
 
     lcd.clear();
-    double goalTemperature = 0;
-    double *currentTemperature = &goalTemperature;
     unsigned long timeStart = millis();
+    double goalTemperature = cycle.getTemperature(0);
     while (stateButton.isOn() && !cycle.isFinished()) { // Run Thermocycle
         unsigned long time = millis() - timeStart;
+        double currentTemperature = temperatureSensor.currentTemperature();
         short cycleNum = cycle.setGoalTemperatureAndGetCycle(time,
                                                              &goalTemperature,
-                                                             *currentTemperature);
+                                                             currentTemperature);
 
         interface.displayCycleInfo(cycleNum, time, goalTemperature,
-                                   *currentTemperature, cycle.isRamping());
+                                   currentTemperature, cycle.isRamping());
         delay(200);
     }
 
