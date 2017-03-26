@@ -148,4 +148,12 @@ String millisecondsToString(unsigned long millis) {
     }
     return minuteStr + ":" + secondStr;
 }
+
+void Interface::printErrorMessage() {
+    lcd->clear();
+    lcd->setCursor(0, 0);
+    lcd->print("ERROR! Unplug &");
+    lcd->setCursor(1, 0);
+    lcd->print("do NOT use!");
+}
 #endif

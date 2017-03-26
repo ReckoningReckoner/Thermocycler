@@ -9,6 +9,7 @@
 #include <LiquidCrystal.h>
 #include "RotaryEncoderPosition.h"
 #include "TemperatureSensor.h"
+#include "Thermocycler.h"
 
 
 /* Interface */
@@ -21,8 +22,9 @@ LiquidCrystal lcd(7, 8, 9, 10, 11, 12); // RS E D4 D5 D6 D7
 Cycles cycle;
 Interface interface(&lcd, &cycle);
 
-/* Heating and Cooling */
+/* Temperature Control */
 TemperatureSensor temperatureSensor(48, 50, 52);
+Thermocycler thermocycler(55, 56);
 
 
 /* Interrupt method */
@@ -69,6 +71,12 @@ void doInterface() {
     }
 }
 
+void fail() {
+    interface.printErrorMessage();
+    thermocycler.fail();
+    exit(-1);
+}
+
 void setup() {
     #if defined(DEBUG)
     Serial.begin(9600);
@@ -93,9 +101,16 @@ void loop() {
     while (stateButton.isOn() && !cycle.isFinished()) { // Run Thermocycle
         unsigned long time = millis() - timeStart;
         double currentTemperature = temperatureSensor.currentTemperature();
+
+        if (currentTemperature >= DANGER_TEMPERATURE) {
+            fail();    
+        }
         short cycleNum = cycle.setGoalTemperatureAndGetCycle(time,
                                                              &goalTemperature,
                                                              currentTemperature);
+        if (cycleNum < 0) {
+            fail();
+        }
 
         interface.displayCycleInfo(cycleNum, time, goalTemperature,
                                    currentTemperature, cycle.isRamping());

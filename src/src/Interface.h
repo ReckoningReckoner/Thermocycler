@@ -30,5 +30,6 @@ class Interface {
                               double goalTemperature,
                               double currentTemperature,
                               bool isRamping);
+        void printErrorMessage();
 };
 #endif
