@@ -249,11 +249,11 @@ void interfaceTests() {
 
     interface.incrementIndex(); // Should be 3
     interface.adjustSetting(true);
-    assert(cycle.getTemperature(1) == 20.5);
+    assert(cycle.getTemperature(1) == MIN_TEMPERATURE + interface.temperatureIncrement);
     interface.adjustSetting(false);
-    assert(cycle.getTemperature(1) == 20);
+    assert(cycle.getTemperature(1) == MIN_TEMPERATURE);
     interface.adjustSetting(false);
-    assert(cycle.getTemperature(1) == 20);
+    assert(cycle.getTemperature(1) == MIN_TEMPERATURE);
     cycle.setTemperature(1, MAX_TEMPERATURE);
     interface.adjustSetting(true);
     assert(cycle.getTemperature(1) == MAX_TEMPERATURE);
