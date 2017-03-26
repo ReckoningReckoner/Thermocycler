@@ -31,20 +31,20 @@ Thermocycler thermocycler(55, 56);
 void toggleSettings() {
     if (!stateButton.isOn() && toggleButton.canSwitch()) {
         interface.incrementIndex();
-        #if defined(DEBUG)
+#if defined(DEBUG)
         Serial.print("Toggle Button Pressed ");
         Serial.println(millis());
-        #endif
+#endif
     }
 }
 
 /* Interrupt method */
 void changeState() {
     if (stateButton.canSwitch()) {
-        #if defined(DEBUG)
+#if defined(DEBUG)
         Serial.print("State Button Pressed ");
         Serial.println(millis());
-        #endif
+#endif
         if (stateButton.isOn()) { // In the middle of cycle
             stateButton.setOff();
         }
@@ -61,9 +61,9 @@ void fail() {
 }
 
 void setup() {
-    #if defined(DEBUG)
+#if defined(DEBUG)
     Serial.begin(9600);
-    #endif
+#endif
     attachInterrupt(digitalPinToInterrupt(togglePin),
                     toggleSettings, RISING);
     attachInterrupt(digitalPinToInterrupt(statePin),
