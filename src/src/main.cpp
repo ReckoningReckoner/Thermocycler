@@ -54,23 +54,6 @@ void changeState() {
     }
 }
 
-void doInterface() {
-    int direction = encoder.rotationDirection();
-    if (direction == 1) {
-        #if defined(DEBUG)
-        Serial.print("CW");
-        Serial.println(millis());
-        #endif
-        interface.adjustSetting(true); // increase
-    } else if (direction == -1) {
-        #if defined(DEBUG)
-        Serial.print("CCW");
-        Serial.println(millis());
-        #endif
-        interface.adjustSetting(false); // decrease
-    }
-}
-
 void fail() {
     interface.printErrorMessage();
     thermocycler.fail();
@@ -87,14 +70,26 @@ void setup() {
                     changeState, RISING);
 }
 
-
-void loop() {
-    interface.reset();
-    cycle.reset();
+inline void doInterface() {
     while (!stateButton.isOn()) { // Get User Settings
-        doInterface();
+        int direction = encoder.rotationDirection();
+        if (direction == 1) {
+#if defined(DEBUG)
+            Serial.print("CW");
+            Serial.println(millis());
+#endif
+            interface.adjustSetting(true); // increase
+        } else if (direction == -1) {
+#if defined(DEBUG)
+            Serial.print("CCW");
+            Serial.println(millis());
+#endif
+            interface.adjustSetting(false); // decrease
+        }
     }
+}
 
+inline void startCycle() {
     lcd.clear();
     unsigned long timeStart = millis();
     double goalTemperature = cycle.getTemperature(0);
@@ -114,10 +109,19 @@ void loop() {
 
         interface.displayCycleInfo(cycleNum, time, goalTemperature,
                                    currentTemperature, cycle.isRamping());
-        delay(200);
+        thermocycler.adjustTemperature(currentTemperature, goalTemperature);
     }
 
     if (cycle.isFinished()) {
         stateButton.setOff();
+    } else {
+        fail();
     }
+}
+
+void loop() {
+    interface.reset();
+    cycle.reset();
+    doInterface();
+    startCycle();
 }

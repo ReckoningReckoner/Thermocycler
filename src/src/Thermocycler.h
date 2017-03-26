@@ -7,6 +7,8 @@ class Thermocycler {
     Relay fan;
     Relay heatSource;
     TemperatureSensor* temperatureSensor;
+    const double maintainTemperature = 1.5;
+
     public:
         Thermocycler(int pin_fan, int pin_heatSource);
         int adjustTemperature(double currentTemperature, double goalTemperature);
