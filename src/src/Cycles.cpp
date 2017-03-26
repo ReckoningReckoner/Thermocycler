@@ -155,4 +155,3 @@ bool Cycles::isValid() {
 
     return true;
 }
-
