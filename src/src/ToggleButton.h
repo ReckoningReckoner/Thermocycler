@@ -1,7 +1,6 @@
 #ifndef ToggleButton_h
 #define ToggleButton_h
 
-#include "Button.h"
 class ToggleButton {
     int pin;
     long delay;

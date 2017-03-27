@@ -3,7 +3,7 @@
  * Year: 2017
  * Author: Viraj Bangari
  */
-#include <Arduino.h>
+#include "Arduino.h"
 #include "ToggleButton.h"
 #include "Interface.h"
 #include <LiquidCrystal.h>
@@ -11,6 +11,7 @@
 #include "TemperatureSensor.h"
 #include "Thermocycler.h"
 
+#define DEBUG
 
 /* Interface */
 # define togglePin 20
@@ -31,20 +32,20 @@ Thermocycler thermocycler(55, 56);
 void toggleSettings() {
     if (!stateButton.isOn() && toggleButton.canSwitch()) {
         interface.incrementIndex();
-#if defined(DEBUG)
+        #if defined(DEBUG)
         Serial.print("Toggle Button Pressed ");
         Serial.println(millis());
-#endif
+        #endif
     }
 }
 
 /* Interrupt method */
 void changeState() {
     if (stateButton.canSwitch()) {
-#if defined(DEBUG)
+        #if defined(DEBUG)
         Serial.print("State Button Pressed ");
         Serial.println(millis());
-#endif
+        #endif
         if (stateButton.isOn()) { // In the middle of cycle
             stateButton.setOff();
         }
@@ -61,9 +62,9 @@ void fail() {
 }
 
 void setup() {
-#if defined(DEBUG)
+    #if defined(DEBUG)
     Serial.begin(9600);
-#endif
+    #endif
     attachInterrupt(digitalPinToInterrupt(togglePin),
                     toggleSettings, RISING);
     attachInterrupt(digitalPinToInterrupt(statePin),
@@ -74,16 +75,16 @@ inline void doInterface() {
     while (!stateButton.isOn()) { // Get User Settings
         int direction = encoder.rotationDirection();
         if (direction == 1) {
-#if defined(DEBUG)
+            #if defined(DEBUG)
             Serial.print("CW");
             Serial.println(millis());
-#endif
+            #endif
             interface.adjustSetting(true); // increase
         } else if (direction == -1) {
-#if defined(DEBUG)
+            #if defined(DEBUG)
             Serial.print("CCW");
             Serial.println(millis());
-#endif
+            #endif
             interface.adjustSetting(false); // decrease
         }
     }
@@ -109,7 +110,17 @@ inline void startCycle() {
 
         interface.displayCycleInfo(cycleNum, time, goalTemperature,
                                    currentTemperature, cycle.isRamping());
-        thermocycler.adjustTemperature(currentTemperature, goalTemperature);
+        thermocycler.adjustTemperature(currentTemperature,
+                                       goalTemperature,
+                                       time);
+        #if defined(DEBUG)
+        double rate = thermocycler.queue.getTemperatureRate();
+        Serial.print(time);
+        Serial.print(",");
+        Serial.print(currentTemperature);
+        Serial.print(",");
+        Serial.print(rate);
+        #endif
     }
 
     if (cycle.isFinished()) {
@@ -122,6 +133,7 @@ inline void startCycle() {
 void loop() {
     interface.reset();
     cycle.reset();
+    thermocycler.reset();
     doInterface();
     startCycle();
 }

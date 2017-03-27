@@ -1,5 +1,6 @@
 #include "Thermocycler.h"
 #include "Arduino.h"
+#include "constants.h"
 
 Thermocycler::Thermocycler(int pin_fan, int pin_heatSource):
     fan(pin_fan), heatSource(pin_heatSource) {
@@ -7,9 +8,11 @@ Thermocycler::Thermocycler(int pin_fan, int pin_heatSource):
     fan.turnOff();
 };
 
-int Thermocycler::adjustTemperature(double currentTemperature, double goalTemperature) {
+int Thermocycler::adjustTemperature(double currentTemperature,
+        double goalTemperature, unsigned long time) {
+    queue.push(time, currentTemperature);
     if (currentTemperature > goalTemperature) {
-        if (currentTemperature - goalTemperature > maintainTemperature) {
+        if (currentTemperature - goalTemperature > MAINTAIN_TEMPERATURE) {
             heatSource.turnOff();
             fan.turnOn();
         } else {
@@ -17,7 +20,7 @@ int Thermocycler::adjustTemperature(double currentTemperature, double goalTemper
             fan.turnOff();
         }
     } else {
-        if (goalTemperature - currentTemperature > maintainTemperature) {
+        if (goalTemperature - currentTemperature > MAINTAIN_TEMPERATURE) {
             heatSource.turnOn();
             fan.turnOff();
         } else {
@@ -32,4 +35,10 @@ int Thermocycler::adjustTemperature(double currentTemperature, double goalTemper
 void Thermocycler::fail() {
     heatSource.turnOff();
     fan.turnOff();
+}
+
+void Thermocycler::reset() {
+    heatSource.turnOff();
+    fan.turnOff();
+    queue.clear();
 }
