@@ -2,10 +2,10 @@
 #include "Cycles.h"
 
 Cycles::Cycles() {
-    number_of_cycles = 0;
+    number_of_cycles = 1;
     for (int i = 0; i < NUM_TEMPERATURES; i++) {
-       temperatures[i] = MIN_TEMPERATURE;
-       cycle_time[i] = 0;
+       temperatures[i] = MIN_TEMPERATURE + 15;
+       cycle_time[i] = 30 * 1000;
     }
 
     /* These values must be reset */
@@ -154,4 +154,8 @@ bool Cycles::isValid() {
     }
 
     return true;
+}
+
+unsigned long Cycles::getTimeSinceStart() {
+    return time_since_start;
 }

@@ -13,6 +13,6 @@ const double DANGER_TEMPERATURE = 130;
 const double SAFE_TEMPERATURE = 35;
 const double RAMP_TEMPERATURE = 90;
 
-const double RAMPING_TEMPERATURE_DIFFERENCE = 5.0;// Temperature difference for ramp rate
+const double RAMPING_TEMPERATURE_DIFFERENCE = 2.0;// Temperature difference for ramp rate
 const double MAINTAIN_TEMPERATURE = 1.0;
 #endif

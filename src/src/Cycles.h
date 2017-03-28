@@ -55,6 +55,7 @@ class Cycles {
         void reset();
         double getTemperature(unsigned short);
         long getTime(unsigned short);
+        unsigned long getTimeSinceStart();
         unsigned short getNumberOfCycles();
         bool isRamping();
     private:

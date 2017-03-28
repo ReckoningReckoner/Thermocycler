@@ -8,6 +8,8 @@ Thermocycler::Thermocycler(int pin_fan, int pin_heatSource):
     fan.turnOff();
 };
 
+
+#include "Arduino.h"
 int Thermocycler::adjustTemperature(double currentTemperature,
         double goalTemperature, unsigned long time) {
     queue.push(time, currentTemperature);

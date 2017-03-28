@@ -64,10 +64,11 @@ TempTimeQueue::~TempTimeQueue() {
  * Linear regression formula
  * mean(xy) - mean(x)*mean(y)/(mean(x^2) - mean(x)^2)
  */
+#include "Arduino.h"
 double TempTimeQueue::getTemperatureRate() {
     if (currentSize > 1) {
         double num = sumTimeTemps/currentSize - sumTimes/currentSize * sumTemps/currentSize;
-        double denom = sumTimeSq / currentSize + (sumTimes * sumTimes)/(currentSize * currentSize);
+        double denom = sumTimeSq / currentSize - (sumTimes * sumTimes)/(currentSize * currentSize);
         return num / denom;
     } else {
         return 0;

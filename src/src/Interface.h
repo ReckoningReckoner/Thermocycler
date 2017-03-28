@@ -28,8 +28,7 @@ class Interface {
         void displayCycleInfo(short cycleNum,
                               unsigned long time,
                               double goalTemperature,
-                              double currentTemperature,
-                              bool isRamping);
+                              double currentTemperature);
         void printErrorMessage();
 };
 #endif

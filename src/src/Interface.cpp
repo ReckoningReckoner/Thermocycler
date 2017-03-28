@@ -115,12 +115,11 @@ void Interface::updateLCD() {
 }
 
 void Interface::displayCycleInfo(short cycleNum, unsigned long time,
-                                 double goalTemperature, double currentTemperature,
-                                 bool isRamping) {
+                                 double goalTemperature, double currentTemperature) {
     lcd->setCursor(0, 0);
     lcd->print(cycleNum);
     lcd->print(" ");
-    if (isRamping) {
+    if (time == 0) {
         lcd->print("RAMP ");
     } else {
         lcd->print(millisecondsToString(time));
@@ -153,7 +152,7 @@ void Interface::printErrorMessage() {
     lcd->clear();
     lcd->setCursor(0, 0);
     lcd->print("ERROR! Unplug &");
-    lcd->setCursor(1, 0);
+    lcd->setCursor(0, 1);
     lcd->print("do NOT use!");
 }
 #endif

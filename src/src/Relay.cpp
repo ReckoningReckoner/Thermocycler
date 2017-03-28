@@ -3,6 +3,7 @@
 
 Relay::Relay(int pin) {
     this->pin = pin;
+    pinMode(pin, HIGH);
 }
 
 void Relay::turnOn() {

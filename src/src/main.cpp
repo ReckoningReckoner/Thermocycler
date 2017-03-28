@@ -25,7 +25,7 @@ Interface interface(&lcd, &cycle);
 
 /* Temperature Control */
 TemperatureSensor temperatureSensor(48, 50, 52);
-Thermocycler thermocycler(55, 56);
+Thermocycler thermocycler(55, 44);
 
 
 /* Interrupt method */
@@ -104,29 +104,23 @@ inline void startCycle() {
         short cycleNum = cycle.setGoalTemperatureAndGetCycle(time,
                                                              &goalTemperature,
                                                              currentTemperature);
-        if (cycleNum < 0) {
-            fail();
-        }
-
-        interface.displayCycleInfo(cycleNum, time, goalTemperature,
-                                   currentTemperature, cycle.isRamping());
         thermocycler.adjustTemperature(currentTemperature,
                                        goalTemperature,
                                        time);
+
+        interface.displayCycleInfo(cycleNum, cycle.getTimeSinceStart(), goalTemperature, currentTemperature);
         #if defined(DEBUG)
         double rate = thermocycler.queue.getTemperatureRate();
         Serial.print(time);
         Serial.print(",");
         Serial.print(currentTemperature);
         Serial.print(",");
-        Serial.print(rate);
+        Serial.println(rate * 1000, 8);
         #endif
     }
 
     if (cycle.isFinished()) {
         stateButton.setOff();
-    } else {
-        fail();
     }
 }
 
