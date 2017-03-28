@@ -9,6 +9,7 @@ const double MIN_TEMPERATURE = 30;
 const double MAX_TEMPERATURE = 105;
 
 const double DANGER_TEMPERATURE = 130;
+
 const double SAFE_TEMPERATURE = 35;
 const double RAMP_TEMPERATURE = 90;
 
