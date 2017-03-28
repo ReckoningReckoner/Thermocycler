@@ -11,10 +11,10 @@ void TempTimeQueue::push(unsigned long time, double temperature) {
     }
 
     /* Update linear regression */
-    sumTimes += tempTime->time;
+    sumTimes += (double) tempTime->time;
     sumTemps += tempTime->temperature;
-    sumTimeTemps += tempTime->time * tempTime->temperature;
-    sumTimeSq += tempTime->time * tempTime->time;
+    sumTimeTemps += (double)tempTime->time * tempTime->temperature;
+    sumTimeSq += (double)tempTime->time * (double)tempTime->time;
     /* update */
 
     values[endIndex] = tempTime;
@@ -28,10 +28,10 @@ void TempTimeQueue::pop() {
 
     _TempTime* t = values[startIndex];
     /* update regression */
-    sumTimes -= t->time;
+    sumTimes -= (double)t->time;
     sumTemps -= t->temperature;
-    sumTimeTemps -= t->time * t->temperature;
-    sumTimeSq -= t->time * t->time;
+    sumTimeTemps -= (double)t->time * t->temperature;
+    sumTimeSq -= (double)t->time * (double)t->time;
     /* end */
     delete t;
 
@@ -64,7 +64,6 @@ TempTimeQueue::~TempTimeQueue() {
  * Linear regression formula
  * mean(xy) - mean(x)*mean(y)/(mean(x^2) - mean(x)^2)
  */
-#include "Arduino.h"
 double TempTimeQueue::getTemperatureRate() {
     if (currentSize > 1) {
         double num = sumTimeTemps/currentSize - sumTimes/currentSize * sumTemps/currentSize;
