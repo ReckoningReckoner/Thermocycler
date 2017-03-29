@@ -2,9 +2,9 @@
 #define TEMPTIMEQUEUE_H
 
 struct _TempTime {
-    unsigned long time;
+    double time;
     double temperature;
-    _TempTime(unsigned long _time, double _temperature) {
+    _TempTime(double _time, double _temperature) {
         time = _time;
         temperature = _temperature;
     }
@@ -28,7 +28,7 @@ class TempTimeQueue {
 
     void pop();
     public:
-        void push(unsigned long time, double temperature);
+        void push(double time, double temperature);
         void clear();
         double getTemperatureRate();
         ~TempTimeQueue();

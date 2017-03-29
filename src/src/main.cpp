@@ -114,7 +114,7 @@ inline void startCycle() {
         Serial.print(",");
         Serial.print(currentTemperature);
         Serial.print(",");
-        Serial.println(rate * 1000, 8);
+        Serial.println(rate, 8);
         #endif
     }
 

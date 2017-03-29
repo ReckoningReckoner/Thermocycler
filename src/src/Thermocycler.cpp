@@ -10,7 +10,7 @@ Thermocycler::Thermocycler(int pin_fan, int pin_heatSource):
 
 int Thermocycler::adjustTemperature(double currentTemperature,
         double goalTemperature, unsigned long time) {
-    queue.push(time, currentTemperature);
+    queue.push(time/1000.0, currentTemperature);
     if (currentTemperature > goalTemperature) {
         if (currentTemperature - goalTemperature > MAINTAIN_TEMPERATURE) {
             heatSource.turnOff();

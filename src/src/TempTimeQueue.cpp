@@ -1,6 +1,6 @@
 #include "TempTimeQueue.h"
 
-void TempTimeQueue::push(unsigned long time, double temperature) {
+void TempTimeQueue::push(double time, double temperature) {
     if (currentSize == TEMPTIME_MAX_SIZE) {
         pop();
     }
@@ -11,10 +11,10 @@ void TempTimeQueue::push(unsigned long time, double temperature) {
     }
 
     /* Update linear regression */
-    sumTimes += (double) tempTime->time;
+    sumTimes += tempTime->time;
     sumTemps += tempTime->temperature;
-    sumTimeTemps += (double)tempTime->time * tempTime->temperature;
-    sumTimeSq += (double)tempTime->time * (double)tempTime->time;
+    sumTimeTemps += tempTime->time * tempTime->temperature;
+    sumTimeSq += tempTime->time * tempTime->time;
     /* update */
 
     values[endIndex] = tempTime;
@@ -28,10 +28,10 @@ void TempTimeQueue::pop() {
 
     _TempTime* t = values[startIndex];
     /* update regression */
-    sumTimes -= (double)t->time;
+    sumTimes -= t->time;
     sumTemps -= t->temperature;
-    sumTimeTemps -= (double)t->time * t->temperature;
-    sumTimeSq -= (double)t->time * (double)t->time;
+    sumTimeTemps -= t->time * t->temperature;
+    sumTimeSq -= t->time * t->time;
     /* end */
     delete t;
 
@@ -73,3 +73,4 @@ double TempTimeQueue::getTemperatureRate() {
         return 0;
     }
 }
+
