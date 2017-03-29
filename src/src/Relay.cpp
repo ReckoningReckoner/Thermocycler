@@ -23,8 +23,3 @@ void Relay::turnOff() {
         current_state = false;
     }
 }
-
-bool Relay::isOn() {
-    return current_state;
-}
-

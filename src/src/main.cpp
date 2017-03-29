@@ -6,7 +6,6 @@
 #include "Arduino.h"
 #include "ToggleButton.h"
 #include "Interface.h"
-#include <LiquidCrystal.h>
 #include "RotaryEncoderPosition.h"
 #include "TemperatureSensor.h"
 #include "Thermocycler.h"

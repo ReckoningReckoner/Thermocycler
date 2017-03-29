@@ -7,7 +7,6 @@
 class Thermocycler {
     Relay fan;
     Relay heatSource;
-    TemperatureSensor* temperatureSensor;
 
     public:
         TempTimeQueue queue;

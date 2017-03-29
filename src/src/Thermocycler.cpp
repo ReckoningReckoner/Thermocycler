@@ -1,5 +1,4 @@
 #include "Thermocycler.h"
-#include "Arduino.h"
 #include "constants.h"
 
 Thermocycler::Thermocycler(int pin_fan, int pin_heatSource):
@@ -9,7 +8,6 @@ Thermocycler::Thermocycler(int pin_fan, int pin_heatSource):
 };
 
 
-#include "Arduino.h"
 int Thermocycler::adjustTemperature(double currentTemperature,
         double goalTemperature, unsigned long time) {
     queue.push(time, currentTemperature);

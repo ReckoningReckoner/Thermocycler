@@ -1,5 +1,4 @@
 #include "Interface.h"
-#include "constants.h"
 
 /* Interrupt pins for Arduino MEGA
  * 2, 3, 18, 19, 20, 21
@@ -95,7 +94,7 @@ void Interface::adjustSetting(bool increase) {
 #ifndef TESTING
 void Interface::updateLCD() {
     lcd->clear();
-    int cycleIndex = index/2;
+    unsigned short cycleIndex = index / 2;
     if (index == maxIndex) {
         lcd->setCursor(0, 0);
         lcd->print("Set # of cycles:");

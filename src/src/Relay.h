@@ -7,7 +7,6 @@ class Relay {
         Relay(int);
         void turnOn();
         void turnOff();
-        bool isOn();
 };
 #endif
 

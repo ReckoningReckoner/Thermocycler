@@ -4,7 +4,6 @@
 #include <max6675.h>
 
 class TemperatureSensor {
-    int pin;
     MAX6675 thermocouple;
     const short NUM_MEASUREMENTS = 15;
     public:
