@@ -66,8 +66,8 @@ TempTimeQueue::~TempTimeQueue() {
  */
 double TempTimeQueue::getTemperatureRate() {
     if (currentSize > 1) {
-        double num = sumTimeTemps/currentSize - sumTimes/currentSize * sumTemps/currentSize;
-        double denom = sumTimeSq / currentSize - (sumTimes * sumTimes)/(currentSize * currentSize);
+        double num = currentSize * sumTimeTemps - sumTimes * sumTemps;
+        double denom = currentSize * sumTimeSq - sumTimes * sumTimes;
         return num / denom;
     } else {
         return 0;
