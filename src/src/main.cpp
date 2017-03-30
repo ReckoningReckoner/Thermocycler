@@ -89,12 +89,13 @@ inline void doInterface() {
     }
 }
 
-inline void startCycle() {
+void startCycle() {
     lcd.clear();
     unsigned long timeStart = millis();
     double goalTemperature = cycle.getTemperature(0);
     double currentTemperature = 0;
 
+    /* Run the actual cycle */
     while (stateButton.isOn() && !cycle.isFinished()) { // Run Thermocycle
         currentTemperature = temperatureSensor.currentTemperature();
         unsigned long time = millis() - timeStart;
@@ -120,6 +121,8 @@ inline void startCycle() {
         #endif
     }
 
+    /* Run the cooling cycle */
+    lcd.clear();
     while (stateButton.isOn() && currentTemperature >= MIN_TEMPERATURE) {
         unsigned long time = millis() - timeStart;
         thermocycler.adjustTemperature(currentTemperature, MIN_TEMPERATURE, time);
@@ -128,6 +131,14 @@ inline void startCycle() {
             fail();
         }
         interface.displaySetCycleInfo(currentTemperature, MIN_TEMPERATURE, false);
+        #if defined(DEBUG)
+        double rate = thermocycler.queue.getTemperatureRate();
+        Serial.print(time);
+        Serial.print(",");
+        Serial.print(currentTemperature);
+        Serial.print(",");
+        Serial.println(rate, 8);
+        #endif
     }
 
     if (cycle.isFinished()) {

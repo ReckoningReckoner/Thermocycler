@@ -129,17 +129,18 @@ void Interface::displayCycleInfo(short cycleNum, unsigned long time,
     lcd->print(currentTemperature);
 }
 
-void Interface::displaySetCycleInfo(double currentTemperature, double goal, bool toHeat) {
+void Interface::displaySetCycleInfo(double currentTemperature,
+                                    double goalTemperature, bool toHeat) {
     lcd->setCursor(0, 0);
     if (toHeat) {
         lcd->print("HEAT ");
-        lcd->print(goal);
     } else {
         lcd->print("COOL ");
-        lcd->print(goal);
     }
 
     lcd->setCursor(0, 1);
+    lcd->print(goalTemperature);
+    lcd->print(" ");
     lcd->print(currentTemperature);
 }
 

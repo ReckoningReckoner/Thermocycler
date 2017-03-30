@@ -15,7 +15,7 @@ class Interface {
     unsigned short maxIndex;
     void updateLCD();
     public:
-        const double temperatureIncrement = 0.5;
+        const double temperatureIncrement = 1;
         const long timeIncrement = 30000; // 30 seconds
 #ifndef TESTING
         Interface(LiquidCrystal*, Cycles*);

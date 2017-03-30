@@ -35,7 +35,7 @@ double Thermocycler::adjustTemperature(double currentTemperature,
         heatSource.turnOn();
         fan.turnOff();
     }
-    delay(300);
+    delay(200);
     return predictedTemperature;
 }
 
