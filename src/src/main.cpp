@@ -24,7 +24,7 @@ Interface interface(&lcd, &cycle);
 
 /* Temperature Control */
 TemperatureSensor temperatureSensor(48, 50, 52);
-Thermocycler thermocycler(55, 44);
+Thermocycler thermocycler(46, 44, 42);
 
 
 /* Interrupt method */
@@ -93,9 +93,10 @@ inline void startCycle() {
     lcd.clear();
     unsigned long timeStart = millis();
     double goalTemperature = cycle.getTemperature(0);
+    double currentTemperature = temperatureSensor.currentTemperature();
+
     while (stateButton.isOn() && !cycle.isFinished()) { // Run Thermocycle
         unsigned long time = millis() - timeStart;
-        double currentTemperature = temperatureSensor.currentTemperature();
 
         if (currentTemperature >= DANGER_TEMPERATURE) {
             fail();    
@@ -103,9 +104,8 @@ inline void startCycle() {
         short cycleNum = cycle.setGoalTemperatureAndGetCycle(time,
                                                              &goalTemperature,
                                                              currentTemperature);
-        thermocycler.adjustTemperature(currentTemperature,
-                                       goalTemperature,
-                                       time);
+        double predicted = thermocycler.adjustTemperature(currentTemperature,
+                                                          goalTemperature, time);
 
         interface.displayCycleInfo(cycleNum, cycle.getTimeSinceStart(), goalTemperature, currentTemperature);
         #if defined(DEBUG)
@@ -114,8 +114,20 @@ inline void startCycle() {
         Serial.print(",");
         Serial.print(currentTemperature);
         Serial.print(",");
-        Serial.println(rate, 8);
+        Serial.print(rate, 8);
+        Serial.print(",");
+        Serial.println(predicted);
         #endif
+    }
+
+    while (stateButton.isOn() && currentTemperature >= MIN_TEMPERATURE) {
+        unsigned long time = millis() - timeStart;
+        thermocycler.adjustTemperature(currentTemperature, MIN_TEMPERATURE, time);
+        currentTemperature = temperatureSensor.currentTemperature();
+        if (currentTemperature >= DANGER_TEMPERATURE) {
+            fail();
+        }
+        interface.displaySetCycleInfo(currentTemperature, MIN_TEMPERATURE, false);
     }
 
     if (cycle.isFinished()) {
@@ -124,9 +136,10 @@ inline void startCycle() {
 }
 
 void loop() {
+    thermocycler.reset();
     interface.reset();
     cycle.reset();
-    thermocycler.reset();
+
     doInterface();
     startCycle();
 }

@@ -129,6 +129,21 @@ void Interface::displayCycleInfo(short cycleNum, unsigned long time,
     lcd->print(currentTemperature);
 }
 
+void Interface::displaySetCycleInfo(double currentTemperature, double goal, bool toHeat) {
+    lcd->setCursor(0, 0);
+    if (toHeat) {
+        lcd->print("HEAT ");
+        lcd->print(goal);
+    } else {
+        lcd->print("COOL ");
+        lcd->print(goal);
+    }
+
+    lcd->setCursor(0, 1);
+    lcd->print(currentTemperature);
+}
+
+
 String millisecondsToString(unsigned long millis) {
     unsigned long seconds = millis/1000;
     String secondStr;

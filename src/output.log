@@ -1,0 +1,50 @@
+Type [C-a] [C-h] to see available commands
+
+Terminal ready
+State Button Pressed 9547
+0,62.75,0.00000000,62.75
+State Button Pressed 10566
+868,62.80,0.05759838,63.09
+Toggle Button Pressed 11676
+State Button Pressed 11676
+0,63.25,nan,nan
+867,62.75,35.89965057,242.25
+1734,62.50,19.45056152,159.75
+2601,62.75,12.63654041,125.93
+3470,62.75,8.96254158,107.56
+4337,62.75,6.72865915,96.39
+5204,62.50,5.22843742,88.64
+6072,62.50,4.18993949,83.45
+6940,62.50,3.43839693,79.69
+7807,62.50,3.91162919,82.06
+8675,62.50,3.56906032,80.35
+9542,62.50,3.64129972,80.71
+10410,62.50,3.68524432,80.93
+11278,62.75,3.73816847,81.44
+State Button Pressed 23856
+Toggle Button Pressed 23856
+12145,62.50,3.76981186,81.35
+State Button Pressed 27770
+0,62.75,nan,nan
+866,63.00,60.67167282,366.36
+
+Thanks for using picocom
+picocom v2.2
+
+port is        : /dev/tty.usbmodem14111
+flowcontrol    : none
+baudrate is    : 9600
+parity is      : none
+databits are   : 8
+stopbits are   : 1
+escape is      : C-a
+local echo is  : no
+noinit is      : no
+noreset is     : no
+nolock is      : no
+send_cmd is    : sz -vv
+receive_cmd is : rz -vv -E
+imap is        : 
+omap is        : 
+emap is        : crcrlf,delbs,
+

@@ -65,7 +65,7 @@ TempTimeQueue::~TempTimeQueue() {
  * mean(xy) - mean(x)*mean(y)/(mean(x^2) - mean(x)^2)
  */
 double TempTimeQueue::getTemperatureRate() {
-    if (currentSize > 1) {
+    if (currentSize  > 5) {
         double num = currentSize * sumTimeTemps - sumTimes * sumTemps;
         double denom = currentSize * sumTimeSq - sumTimes * sumTimes;
         return num / denom;

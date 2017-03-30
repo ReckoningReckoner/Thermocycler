@@ -7,13 +7,14 @@
 class Thermocycler {
     Relay fan;
     Relay heatSource;
+    Relay lid;
 
     public:
         TempTimeQueue queue;
-        Thermocycler(int pin_fan, int pin_heatSource);
-        int adjustTemperature(double currentTemperature,
-                              double goalTemperature, 
-                              unsigned long time);
+        Thermocycler(int pin_fan, int pin_heatSource, int pin_lid);
+        double adjustTemperature(double currentTemperature,
+                                 double goalTemperature,
+                                 unsigned long time);
         void fail();
         void reset();
 };

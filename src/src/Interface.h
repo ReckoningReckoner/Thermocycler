@@ -30,5 +30,7 @@ class Interface {
                               double goalTemperature,
                               double currentTemperature);
         void printErrorMessage();
+
+    void displaySetCycleInfo(double currentTemperature, double goal, bool toHeat);
 };
 #endif
