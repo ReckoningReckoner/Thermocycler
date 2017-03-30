@@ -93,11 +93,11 @@ inline void startCycle() {
     lcd.clear();
     unsigned long timeStart = millis();
     double goalTemperature = cycle.getTemperature(0);
-    double currentTemperature = temperatureSensor.currentTemperature();
+    double currentTemperature = 0;
 
     while (stateButton.isOn() && !cycle.isFinished()) { // Run Thermocycle
+        currentTemperature = temperatureSensor.currentTemperature();
         unsigned long time = millis() - timeStart;
-
         if (currentTemperature >= DANGER_TEMPERATURE) {
             fail();    
         }
@@ -106,8 +106,8 @@ inline void startCycle() {
                                                              currentTemperature);
         double predicted = thermocycler.adjustTemperature(currentTemperature,
                                                           goalTemperature, time);
-
         interface.displayCycleInfo(cycleNum, cycle.getTimeSinceStart(), goalTemperature, currentTemperature);
+
         #if defined(DEBUG)
         double rate = thermocycler.queue.getTemperatureRate();
         Serial.print(time);

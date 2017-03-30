@@ -14,27 +14,27 @@ double Thermocycler::adjustTemperature(double currentTemperature,
     lid.turnOn(); // Turn on the lid. Otherwise fan cannot be used!
     queue.push(time/1000.0, currentTemperature);
 
-    double rate = queue.getTemperatureRate();
-    double predictedTemperature;
-    if (rate >= 0) { // Heating
-        const int heatingTimeDiff = 10;
-        predictedTemperature = currentTemperature + rate * heatingTimeDiff;
-    } else { // Cooling
-        const int coolingTimeDiff = 5; // seconds
-        predictedTemperature = currentTemperature + rate * coolingTimeDiff;
-    }
-
-    if (fabs(predictedTemperature - goalTemperature) <= MAINTAIN_TEMPERATURE) { // Maintain
-        heatSource.turnOff();
-        fan.turnOff();
-    }
-    else if (predictedTemperature > goalTemperature) { // Going to be too hot
-        heatSource.turnOff();
-        fan.turnOn();
-    } else { // Going to be too Cold
-        heatSource.turnOn();
-        fan.turnOff();
-    }
+//    double rate = queue.getTemperatureRate();
+//    double predictedTemperature;
+//    if (rate >= 0) { // Heating
+//        const int heatingTimeDiff = 10;
+//        predictedTemperature = currentTemperature + rate * heatingTimeDiff;
+//    } else { // Cooling
+//        const int coolingTimeDiff = 5; // seconds
+//        predictedTemperature = currentTemperature + rate * coolingTimeDiff;
+//    }
+//
+//    if (fabs(predictedTemperature - goalTemperature) <= MAINTAIN_TEMPERATURE) { // Maintain
+//        heatSource.turnOff();
+//        fan.turnOff();
+//    }
+//    else if (predictedTemperature > goalTemperature) { // Going to be too hot
+//        heatSource.turnOff();
+//        fan.turnOn();
+//    } else { // Going to be too Cold
+//        heatSource.turnOn();
+//        fan.turnOff();
+//    }
     delay(300);
     return predictedTemperature;
 }
