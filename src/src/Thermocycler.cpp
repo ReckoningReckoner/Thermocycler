@@ -39,6 +39,12 @@ double Thermocycler::adjustTemperature(double currentTemperature,
     return predictedTemperature;
 }
 
+double Thermocycler::powerFan() {
+    lid.turnOn();
+    fan.turnOn();
+    heatSource.turnOff();
+}
+
 void Thermocycler::fail() {
     reset();
 }

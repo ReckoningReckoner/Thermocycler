@@ -123,14 +123,14 @@ void startCycle() {
 
     /* Run the cooling cycle */
     lcd.clear();
-    while (stateButton.isOn() && currentTemperature >= MIN_TEMPERATURE) {
+    while (stateButton.isOn() && currentTemperature >= SAFE_TEMPERATURE) {
         unsigned long time = millis() - timeStart;
-        thermocycler.adjustTemperature(currentTemperature, MIN_TEMPERATURE, time);
+        thermocycler.powerFan();
         currentTemperature = temperatureSensor.currentTemperature();
         if (currentTemperature >= DANGER_TEMPERATURE) {
             fail();
         }
-        interface.displaySetCycleInfo(currentTemperature, MIN_TEMPERATURE, false);
+        interface.displaySetCycleInfo(currentTemperature, SAFE_TEMPERATURE, false);
         #if defined(DEBUG)
         double rate = thermocycler.queue.getTemperatureRate();
         Serial.print(time);
