@@ -92,10 +92,15 @@ inline void doInterface() {
 /*
  * Returns false if interrupted or finished early
  */
-inline bool presetCycle(double goalTemperature, unsigned long timeStart) {
+bool presetCycle(double goalTemperature, unsigned long timeStart) {
     lcd.clear();
     double currentTemperature = 0;
-    while (fabs(currentTemperature - goalTemperature) > MAINTAIN_TEMPERATURE) {
+    while (true) {
+        if (fabs(currentTemperature - goalTemperature) <= MAINTAIN_TEMPERATURE) {
+            return true;
+        }
+
+        unsigned long time = millis() - timeStart;
         if (!stateButton.isOn()) { // User cancelled
             return false;
         }
@@ -104,42 +109,35 @@ inline bool presetCycle(double goalTemperature, unsigned long timeStart) {
         }
 
         currentTemperature = temperatureSensor.currentTemperature();
-        if (goalTemperature == SAFE_TEMPERATURE)  {
-            thermocycler.powerFan();
-        } else if (goalTemperature == RAMP_TEMPERATURE) {
-            thermocycler.powerHeat();
-        } else {
-            return false;
-        }
+        double predicted = thermocycler.adjustTemperature(currentTemperature,
+                                                          goalTemperature, time);
 
         interface.displaySetCycleInfo(currentTemperature, goalTemperature);
 
         #if defined(DEBUG)
-        unsigned long time = millis() - timeStart;
         double rate = thermocycler.queue.getTemperatureRate();
         Serial.print(time);
         Serial.print(",");
-        Serial.println(rate, 8);
+        Serial.print(currentTemperature);
+        Serial.print(",");
+        Serial.print(rate, 8);
+        Serial.print(",");
+        Serial.println(predicted);
         #endif
     }
-    return true;
 }
 
-inline void startCycle() {
+void startCycle() {
     unsigned long timeStart = millis();
 
-    /* Initial heating */
-    if(!presetCycle(RAMP_TEMPERATURE, timeStart)) {
-        return;
-    }
-
+    lcd.clear();
     /* Run the actual cycle */
     double goalTemperature = cycle.getTemperature(0);
     while (stateButton.isOn() && !cycle.isFinished()) { // Run Thermocycle
         double currentTemperature = temperatureSensor.currentTemperature();
         unsigned long time = millis() - timeStart;
         if (currentTemperature >= DANGER_TEMPERATURE) {
-            fail();    
+            fail();
         }
         short cycleNum = cycle.setGoalTemperatureAndGetCycle(time,
                                                              &goalTemperature,
@@ -162,6 +160,7 @@ inline void startCycle() {
 
     /* Final cooling */
     if(!presetCycle(SAFE_TEMPERATURE, timeStart)) {
+        stateButton.setOff();
         return;
     }
 

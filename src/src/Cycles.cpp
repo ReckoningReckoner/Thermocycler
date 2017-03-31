@@ -4,8 +4,8 @@
 Cycles::Cycles() {
     number_of_cycles = 0;
     for (int i = 0; i < NUM_TEMPERATURES; i++) {
-       temperatures[i] = MIN_TEMPERATURE;
-       cycle_time[i] = 0;
+       temperatures[i] = MIN_TEMPERATURE + 30;
+       cycle_time[i] = 30 * 1000;
     }
 
     /* These values must be reset */

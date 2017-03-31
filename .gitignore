@@ -13,5 +13,4 @@ CMakeListsPrivate.txt
 src/CMakeLists.txt
 .lvim
 .xcode
-output.log
-output.csv
+output**

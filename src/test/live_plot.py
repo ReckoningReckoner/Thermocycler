@@ -1,10 +1,12 @@
 import matplotlib.pyplot as plt
 import subprocess
+from datetime import datetime
 
-PORT = '/dev/tty.lpss-serial2'
+PORT = '/dev/tty.usbmodem14121'
 COMMAND = 'picocom ' + PORT
 p = subprocess.Popen(COMMAND, shell=True,
                      stdout=subprocess.PIPE)
+f = open('output' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '.txt', 'w')
 
 times = []
 temperatures = []
@@ -24,10 +26,11 @@ while p.poll() is None:
             temperatures.append(float(data[1]))
             plt.plot(times, temperatures, '.', color='b')
             plt.draw()
-            plt.pause(1)
+            plt.pause(0.01)
         except ValueError as e:
             continue
     print(line)
+    f.write(line)
 
 plt.plot(times, temperatures)
 plt.show()
