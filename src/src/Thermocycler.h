@@ -17,6 +17,7 @@ class Thermocycler {
                                  unsigned long time);
         void fail();
         void reset();
-        double powerFan();
+        void powerFan();
+        void powerHeat();
 };
 #endif

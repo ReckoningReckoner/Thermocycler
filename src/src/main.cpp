@@ -9,8 +9,7 @@
 #include "RotaryEncoderPosition.h"
 #include "TemperatureSensor.h"
 #include "Thermocycler.h"
-
-#define DEBUG
+# define DEBUG
 
 /* Interface */
 # define togglePin 20
@@ -28,7 +27,7 @@ Thermocycler thermocycler(46, 44, 42);
 
 
 /* Interrupt method */
-void toggleSettings() {
+inline void toggleSettings() {
     if (!stateButton.isOn() && toggleButton.canSwitch()) {
         interface.incrementIndex();
         #if defined(DEBUG)
@@ -39,7 +38,7 @@ void toggleSettings() {
 }
 
 /* Interrupt method */
-void changeState() {
+inline void changeState() {
     if (stateButton.canSwitch()) {
         #if defined(DEBUG)
         Serial.print("State Button Pressed ");
@@ -54,6 +53,7 @@ void changeState() {
     }
 }
 
+/* For when something wrong happens */
 void fail() {
     interface.printErrorMessage();
     thermocycler.fail();
@@ -89,15 +89,54 @@ inline void doInterface() {
     }
 }
 
-void startCycle() {
+/*
+ * Returns false if interrupted or finished early
+ */
+inline bool presetCycle(double goalTemperature, unsigned long timeStart) {
     lcd.clear();
-    unsigned long timeStart = millis();
-    double goalTemperature = cycle.getTemperature(0);
     double currentTemperature = 0;
+    while (fabs(currentTemperature - goalTemperature) > MAINTAIN_TEMPERATURE) {
+        if (!stateButton.isOn()) { // User cancelled
+            return false;
+        }
+        if (currentTemperature >= DANGER_TEMPERATURE) { // Too Hot!
+            fail();
+        }
+
+        currentTemperature = temperatureSensor.currentTemperature();
+        if (goalTemperature == SAFE_TEMPERATURE)  {
+            thermocycler.powerFan();
+        } else if (goalTemperature == RAMP_TEMPERATURE) {
+            thermocycler.powerHeat();
+        } else {
+            return false;
+        }
+
+        interface.displaySetCycleInfo(currentTemperature, goalTemperature);
+
+        #if defined(DEBUG)
+        unsigned long time = millis() - timeStart;
+        double rate = thermocycler.queue.getTemperatureRate();
+        Serial.print(time);
+        Serial.print(",");
+        Serial.println(rate, 8);
+        #endif
+    }
+    return true;
+}
+
+inline void startCycle() {
+    unsigned long timeStart = millis();
+
+    /* Initial heating */
+    if(!presetCycle(RAMP_TEMPERATURE, timeStart)) {
+        return;
+    }
 
     /* Run the actual cycle */
+    double goalTemperature = cycle.getTemperature(0);
     while (stateButton.isOn() && !cycle.isFinished()) { // Run Thermocycle
-        currentTemperature = temperatureSensor.currentTemperature();
+        double currentTemperature = temperatureSensor.currentTemperature();
         unsigned long time = millis() - timeStart;
         if (currentTemperature >= DANGER_TEMPERATURE) {
             fail();    
@@ -121,27 +160,13 @@ void startCycle() {
         #endif
     }
 
-    /* Run the cooling cycle */
-    lcd.clear();
-    while (stateButton.isOn() && currentTemperature >= SAFE_TEMPERATURE) {
-        unsigned long time = millis() - timeStart;
-        thermocycler.powerFan();
-        currentTemperature = temperatureSensor.currentTemperature();
-        if (currentTemperature >= DANGER_TEMPERATURE) {
-            fail();
-        }
-        interface.displaySetCycleInfo(currentTemperature, SAFE_TEMPERATURE, false);
-        #if defined(DEBUG)
-        double rate = thermocycler.queue.getTemperatureRate();
-        Serial.print(time);
-        Serial.print(",");
-        Serial.print(currentTemperature);
-        Serial.print(",");
-        Serial.println(rate, 8);
-        #endif
+    /* Final cooling */
+    if(!presetCycle(SAFE_TEMPERATURE, timeStart)) {
+        return;
     }
 
-    if (cycle.isFinished()) {
+    /* Turn the state button off again */
+    if (stateButton.isOn()) {
         stateButton.setOff();
     }
 }

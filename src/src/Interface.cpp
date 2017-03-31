@@ -130,12 +130,14 @@ void Interface::displayCycleInfo(short cycleNum, unsigned long time,
 }
 
 void Interface::displaySetCycleInfo(double currentTemperature,
-                                    double goalTemperature, bool toHeat) {
+                                    double goalTemperature) {
     lcd->setCursor(0, 0);
-    if (toHeat) {
+    if (goalTemperature == RAMP_TEMPERATURE) {
         lcd->print("HEAT ");
-    } else {
+    } else if (goalTemperature == SAFE_TEMPERATURE){
         lcd->print("COOL ");
+    } else {
+        lcd->print("ERROR!");
     }
 
     lcd->setCursor(0, 1);

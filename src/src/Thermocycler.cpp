@@ -39,10 +39,18 @@ double Thermocycler::adjustTemperature(double currentTemperature,
     return predictedTemperature;
 }
 
-double Thermocycler::powerFan() {
+void Thermocycler::powerFan() {
     lid.turnOn();
     fan.turnOn();
     heatSource.turnOff();
+    delay(200);
+}
+
+void Thermocycler::powerHeat() {
+    lid.turnOn();
+    fan.turnOff();
+    heatSource.turnOn();
+    delay(200);
 }
 
 void Thermocycler::fail() {
