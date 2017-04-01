@@ -23,7 +23,7 @@ Interface interface(&lcd, &cycle);
 
 /* Temperature Control */
 TemperatureSensor temperatureSensor(48, 50, 52);
-Thermocycler thermocycler(46, 44, 42);
+Thermocycler thermocycler(36, 34, 32);
 
 
 /* Interrupt method */
