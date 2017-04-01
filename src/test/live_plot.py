@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import subprocess
 from datetime import datetime
 
-PORT = '/dev/tty.usbmodem14121'
+PORT = '/dev/cu.usbmodem14131'
 COMMAND = 'picocom ' + PORT
 p = subprocess.Popen(COMMAND, shell=True,
                      stdout=subprocess.PIPE)

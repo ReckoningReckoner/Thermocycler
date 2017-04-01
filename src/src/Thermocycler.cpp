@@ -17,10 +17,10 @@ double Thermocycler::adjustTemperature(double currentTemperature,
     double rate = queue.getTemperatureRate();
     double predictedTemperature;
     if (rate >= 0) { // Heating
-        const int heatingTimeDiff = 10;
+        const int heatingTimeDiff = 17;
         predictedTemperature = currentTemperature + rate * heatingTimeDiff;
     } else { // Cooling
-        const int coolingTimeDiff = 5; // seconds
+        const int coolingTimeDiff = 10; // seconds
         predictedTemperature = currentTemperature + rate * coolingTimeDiff;
     }
 
